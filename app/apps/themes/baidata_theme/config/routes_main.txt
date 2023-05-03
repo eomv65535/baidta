@@ -1,0 +1,60 @@
+controller 'themes/baidata_theme/newlogin' do
+  get :'login'  
+  match :'forgot', via: [:get, :post, :patch]
+  get :'testready'
+  get :'streamevents2'
+  get :'streamevents3'
+  get :'evalcurse'
+  post :'forma_contacto'
+  get :'nuevousuario'
+  get :'nuevousuariop'
+  get :'miformacion'
+  get :'oportunidad'
+  get :'inscoport'
+  get :'misdatos'
+  get :'adminempre'
+  get :'adminempre_datos'
+  get :'adminempre_usrs'
+  get :'reuniones_junta'
+  get :'equipostrab'
+  get :'misoportunidades'
+  get :'admin'
+  get :'asamblea'
+  get :'send_sms'
+  get :'info_group'
+  get :'media_group'
+  get :'member_group'
+  get :'cursos'
+  get :'noticias'
+  get :'events'
+  get :'radar_baidata'
+  get :'inf_inicitva_ajx'
+  get :'lista_come_ajax'
+  get :'crea_come_ajax'
+  get :'megusta_ajax'
+  get :'carga_chat_ajax'
+  get :'carga_csms_ajax'
+  get :'carga_mitarjeta_ajax'
+  get :'guarda_chat_ajax'
+  get :'misms'
+  get :'convocatorias'
+  get :'register'
+  get :'juntadir'
+  post :'save_messages' 
+  post :save_valora_curso
+  post :save_login
+  post :save_newusropr
+  get :logout
+  get :myprofile
+  post :'guarda_pub_team'
+  patch :actualiza_usuario
+  patch :actualiza_usuario_ajax
+  
+end
+
+controller 'themes/baidata_theme/tpv' do
+  get :'payok'
+  get :'paynok'  
+  get :okinscr
+  get :nokinscr  
+end

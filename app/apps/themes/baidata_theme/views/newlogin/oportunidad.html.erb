@@ -1,0 +1,172 @@
+<%= render "/layouts/header2_index" %>
+<%= render 'camaleon_cms/flash_messages' %>   
+ <section class="sect_oportunidades interna" id="baidata">
+    <div class="container">
+      <h2>Programa de bonos</h2>
+      <div class="contenido_interno" style="text-align: center;">
+        <p></p>
+        <h3>Acceso a infraestructuras de compartición de datos entre organizaciones</h3>
+      </div>
+    </div>
+  </section>
+  <section id="bonos_intro">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6">
+          <div class="box_img_uno">
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          <p>BAIDATA pone en marcha un programa de financiación que proporcionará hasta 15.000€ de financiación a diez empresas que deseen experimentar, certificar y operar con espacios de datos a las que proporcionará acceso a infraestructuras certificadas de IDSA. Este programa de bonos pretende impulsar la innovación a través de la compartición de datos y colaboración entre empresas. El servicio prestado por BAIDATA ofrecerá a las entidades colaboradoras la oportunidad de estimular su desarrollo tecnológico, la sostenibilidad, su excelencia operativa y el talento, y así mejorar la competitividad de la industria a nivel nacional, así como su posicionamiento como líder en algunos nichos de negocio de una economía cada vez más global.</P>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+  <section id="bonos">
+    <div class="container">
+      <h2>Tipos de bonos</h2>
+      <div class="row">
+        <div class="col-xs-12 col-md-3"></div>
+        <div class="col-xs-12 col-md-6">
+          <p>BAIDATA proporcionará un acceso fácil y rentable al entramado de datos europeo, especialmente a PYMEs, a
+            través de acciones colaborativas entre entidades e instituciones para afrontar los desafíos de la industria
+            digital y ser más competitivas. El programa de bonos ofrece dos servicios diferenciados:</p>
+        </div>
+        <div class="col-xs-12 col-md-3"></div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+          <div class="box">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">TIPO A</h3>
+              </div>
+              <div class="panel-body">
+                Acceso a infraestructuras de compartición de datos entre organizaciones.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+          <div class="box">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">TIPO B</h3>
+              </div>
+              <div class="panel-body">
+                Acceso a infraestructuras de desarrollo y prueba de nuevas tecnologías para la compartición de datos.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="experience">
+    <div class="container">
+      <h2>Cómo solicitar los bonos</h2>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-md-3"></div>
+          <div class="col-xs-12 col-md-6">
+            <div class="box_img">
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-3"></div>
+        </div>
+        
+        <div class="row">
+          <div class="col-xs-12 col-md-3"></div>       
+          <div class="col-xs-12 col-md-6">
+            <p style="text-align: center; font-weight: bold;">Para poder enviar una propuesta, es imprescindible que tu empresa sea miembro de BAIDATA. ¿No eres miembro todavía? <a href="https://baidata.eu/#unete" class="current-link  menu_link"><%= I18n.t('unete')%></a>  
+            </p>
+            <br>
+            <% if !signin? %>
+                <p class="card-text" align="center">&nbsp;
+                <a href="<%= cama_login_path %>" class="btn_oportunidades">Inicia sesión</a>  </p>                               
+                <% else %> 
+                <p class="card-text" align="center">Presenta tu solicitud en tu área personal
+                <a href="<%= cama_myprofile_path %>" class="btn_oportunidades">Mi área personal</a></p>
+                <% end %> 
+          </div>
+          <div class="col-xs-12 col-md-3"></div>
+        </div>
+        <div class="experience-ct">
+          <div class="row">
+            <div class="col-md-6 timeline-label">
+              <h4>Cronología</h4>
+              <p>A continuación encontrarás las fechas clave en el Programa de Bonos de BAIDATA.</p>           
+            </div>
+            <div class="col-md-6 timeline col-exp">
+              <div class="timeline-year">
+                <time datetime="2023"></time>
+                <div class="timeline-experience">
+                  <span class="timeline-circle"></span>
+                  <div class="timeline-experience-info clear-after">
+                    <h5>Enero</h5>
+                    <div class="timeline-role">Fecha de inicio del programa</div>
+                    <p>01/01/2023</p>
+                  </div>
+                </div>
+                <time datetime="2023"></time>
+                <div class="timeline-experience">
+                  <span class="timeline-circle"></span>
+                  <div class="timeline-experience-info clear-after">
+                    <h5>Febrero</h5>
+                    <div class="timeline-role">Fecha de cierre de recepción de solicitudes</div>
+                    <p>07/03/2023, a las 17:00 CET</p>
+                  </div>
+                </div>
+              </div>
+              <div class="timeline-year timeline-year1">
+                <time datetime="2023"></time>
+                <div class="timeline-experience">
+                  <span class="timeline-circle"></span>
+                  <div class="timeline-experience-info clear-after">
+                    <h5>Marzo</h5>
+                    <div class="timeline-role">Comunicación de los resultados y firma de contratos</div>
+                    <p>01 - 15 de Marzo</p>
+                  </div>
+                </div>
+              </div>
+              <div class="timeline-year timeline-year1">
+                <time datetime="2023"></time>
+                <div class="timeline-experience">
+                  <span class="timeline-circle"></span>
+                  <div class="timeline-experience-info clear-after">
+                    <h5>Marzo - Junio</h5>
+                    <div class="timeline-role">Ejecución de los proyectos</div>
+                    <p>01 Marzo - 30 Junio</p>
+                  </div>
+                </div>
+              </div>
+              <div class="timeline-year timeline-year1">
+                <time datetime="2023"></time>
+                <div class="timeline-experience">
+                  <span class="timeline-circle"></span>
+                  <div class="timeline-experience-info clear-after">
+                    <h5>Julio</h5>
+                    <div class="timeline-role">Seguimiento y control final</div>
+                    <p>01 - 15 Julio</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+  <section id="documentacion">
+    <div class="container">
+      <h2><i class="fa fa-file" aria-hidden="true"></i> Documentación</h2>
+      <div class="row">
+        <div class="col-xs-12">
+          <p><a href="https://baidata.eu/media/1/BAIDATA_Plantilla_propuestas.docx" target="_blank">Plantilla de propuesta</a></p>
+          <p><a href="https://baidata.eu/media/1/Preguntas_Frecuentes_programa_de_bonos_BAIDATA.pdf" target="_blank">FAQ</a></p> 
+        </div>
+        <div class="col-xs-12">
+         
+        </div>
+      </div>
+    </div>
+  </section>
+<%= render "layouts/footer2" %>

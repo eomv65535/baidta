@@ -1,0 +1,42 @@
+<%= render "layouts/header2_index" %>
+<%= render "camaleon_cms/flash_messages" %>
+ <div class="team-boxed">
+    <div class="container">
+        <div class="intro">
+            <h2 class="text-center"><%= t("juntadirectiva")%></h2>
+            <p class="text-center">&nbsp</p>
+        </div>
+        <div class="row people">
+        <% current_site.the_posts("junta-directiva").decorate.each_with_index do |directivos,index| 
+            if directivos.the_field("destacado")=="1"
+        %>
+            <div class="col-md-4 item">
+                <div class="box"><img src="<%= directivos.the_thumb_url%>">
+                    <h3 class="name"><%= directivos.the_title%></h3>
+                    <p class="title"><%= directivos.the_excerpt%></p>
+                    <img src="<%= directivos.the_field("logo-empresa")%>">                        
+                </div>
+            </div>
+         <%     end
+            end
+         %>   
+        </div>
+        <div class="intro">
+            <h2 class="text-center"><%= t("vocales")%> </h2>
+            <p class="text-center">&nbsp</p>
+        </div>
+        <div class="row people">
+        <% current_site.the_posts("junta-directiva").decorate.each_with_index do |directivos,index| 
+            if directivos.the_field("destacado")=="0"%>
+            <div class="col-md-4 item">
+                <div class="box"><img src="<%= directivos.the_field("logo-empresa")%>"> 
+                     <h3 class="name"><%= directivos.the_title%></h3>                                  
+                </div>
+            </div>
+         <%  end
+           end
+         %>      
+        </div>  
+    </div>
+</div>            
+<%= render "layouts/footer2" %>

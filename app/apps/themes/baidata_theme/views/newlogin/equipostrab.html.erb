@@ -1,0 +1,81 @@
+<%= render "/layouts/header2_index" %>
+<style>
+.panel-heading, .media_browser_list, .ajax-upload-dragdrop span{
+    display: none!important
+}
+.modal-dialog{
+    width: 30%!important;
+}
+.media_file_info_col{
+    width: 100%!important;
+}
+#cama_media_upload{
+    margin-top:30px
+}
+</style>
+<%= render 'camaleon_cms/flash_messages' %>   
+<div class="container intranet-top">    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="<%= cama_myprofile_path %>"><%= t("mi_area")%></a></li>
+            <li class="breadcrumb-item active" aria-current="page"><%= t('equiposdetrabajo')%></li>
+        </ol>
+    </nav>    
+</div>  
+<div id="contenedor-general" class="container-fluid m-0 p-0 fondo">
+            <div class="container equipos">
+        <%   current_site.the_posts("equipos-de-trabajo").decorate.each_with_index do |equipost,index|    %>
+                <div class="tarjeta p-0 tarjeta-equipos">
+                    <div id="cabecera-tarjeta" class="d-flex" style="background-image:url(<%= equipost.get_field("image-top-equipo")%>)">
+                        <img class="profile-image-tarjeta" src="<%= equipost.the_thumb_url%>" />
+                    </div>                    
+                    <div id="publicar" class="d-flex flex-column text-center mt">
+                        <div class="h4"><a href="<%= equipost.the_url%>"><%=equipost.title.translate%></a></div>
+                        <div class="h6"><%= current_site.inscritos.deteams.deunidslug(equipost.id).activo.count%> <%= t("miembros")%></div>
+                        
+                    </div>
+                    <hr>
+                    <div id="acciones-equipo" class="d-flex justify-content-center align-items-center">
+                     <%= render partial: "camaleon_cms/flash_messages", locals:{ flash: (flash[:custom_registro] || {}).with_indifferent_access }%>
+                        <% if current_site.inscritos.deteams.decorreo(current_user.email).deunidslug(equipost.id).present? && current_site.inscritos.deteams.deunidslug(equipost.id).decorreo(current_user.email).activo.present?%>               
+                        <%= form_tag(plugins_custom_registro_salirteams_url, method: :post, id: "salirtea_" + equipost.id.to_s) do %>                             
+                                <input type='hidden' name="idslug" value='<%= raw equipost.id%>'>
+                                <input type='hidden' name="slug" value='equipos-de-trabajo'>                                                
+                                <button type="button" onclick="verifica_out(<%= raw equipost.id%>)" class="action-secondary"><i class="fa fa-sign-out" aria-hidden="true"></i> <%= t("abandonar")%></button>                                                                                                                     
+                         <% end%> 
+                      <% elsif current_site.inscritos.deteams.deunidslug(equipost.id).decorreo(current_user.email).present? && current_site.inscritos.deteams.deunidslug(equipost.id).decorreo(current_user.email).pendiente.present?%>               
+                        <button class="action-secondary"><i class="fa fa-clock-o" aria-hidden="true"></i> <%= t("solicitador")%></button>
+                      <% else %>    
+                         <%= form_tag(plugins_custom_registro_pedirteams_url, method: :post, id: "pedirtea_" + equipost.id.to_s) do %>  
+                                <input type='hidden' name="idslug" value='<%= raw equipost.id%>'>
+                                <input type='hidden' name="slug" value='equipos-de-trabajo'>                                                
+                                <button type="submit" class="action-primary"><i class="fa fa-sign-in" aria-hidden="true"></i> <%= t("solicitar")%></button>                                                                                                                     
+                            <% end%>                         
+                      <% end%> 
+                    </div>
+                </div>
+
+        <% end %>
+            </div>
+        </div>
+</div>
+<script type="text/javascript">
+   function verifica_out(cual)
+    {
+        Swal.fire({
+            title: "<%= t('estasseguro')%>",
+            text: "<%= t("nopuederevertir")%>",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "<%= t('siborra')%>"
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $("#salirtea_"+cual).submit()
+            }
+            })
+
+    }    
+</script>
+<%= render "layouts/footer2" %>

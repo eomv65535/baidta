@@ -1,0 +1,189 @@
+<%= render "layouts/header2_index"%> 
+<% current_site.the_posts("events").decorate.each_with_index do |evento_cero,index|
+    if index ==0
+%>  
+<section class="headerteam" style="background: url(/media/1/banner-evento-home-01.jpg);">
+	<div class="container banner-evento">
+      <div class="subtitu_top_event col-md-12">
+         <h1> <%= current_theme.the_field('slider1_index_titu1') +" "+ t("lay") +" "+ evento_cero.title.translate(I18n.locale.to_s) %></h1>
+         <h3><%= evento_cero.the_excerpt %></h3>
+         <h3><%= I18n.l(Date.parse(evento_cero.get_field("fecha-evento")), locale: I18n.locale, format: :long) %> - <%= evento_cero.get_field("ubicacion-evento") %></h3>
+         <p><a href="<%= evento_cero.the_url%>/#agendau" class="btn btn-registro"><%= t("agenda")%></a> <a href="https://baidata.eu/themes/baidata_theme/streamevents/184" class="btn btn-registro"><i class="fa fa-play-circle"></i>&nbsp;&nbsp;Streaming</a> 
+         </p> 
+      </div>
+   </div>
+ <%   end 
+end%>  
+</section>
+    <section class="sect2 interna" id="mision">
+        <div class="container">
+            <h2><%= current_theme.the_field('titulo-mision-baidata')%></h2>
+            <div class="contenido_interno">
+                <% current_site.the_posts("mission").decorate.each_with_index do |mision,index|
+                    if index == 3
+                     break
+                    end 
+                %>
+                <div class="item-mission col-xs-12 col-md-4">
+                    <img src="<%= mision.the_thumb_url%>" width="100">
+                    <h3><%= mision.the_title%></h3>
+                    <p><%= mision.the_excerpt%></p>
+                </div>
+                <% end%>
+                <% current_site.the_posts("mission").decorate.each_with_index do |mision,index|                
+                 if index == 2 %>
+                 <div class="item-mission d-none d-sm-block col-md-1">
+                 </div>
+                <% end
+                    if index > 2 %>
+                <div class="item-mission col-xs-12 col-md-5">
+                    <img src="<%= mision.the_thumb_url%>" width="100">
+                    <h3><%= mision.the_title%></h3>
+                    <p><%= mision.the_excerpt%></p>
+                </div>
+                <%   end 
+                    end%>
+            </div>
+        </div>
+    </section>    
+    <section class="sect3" id="">
+        <div class="container">
+            <h2><%= current_theme.the_field('titulo-que-ofrece-baidata')%></h2>
+            <div class="col-md-4 d-none d-sm-block"></div>
+            <div class="col-md-4 col-xs-12 linea"></div>
+            <div class="col-md-4 d-none d-sm-block"></div>
+            <div id="bootstrapSlider" class="carousel slide" data-ride="carousel" data-interval="false">
+                <div class="carousel-inner">
+                    <%  current_site.the_posts("que-ofrece-baidata").decorate.each_with_index do |ofrece,index|
+                        activo = index == 0 ? "active" : ""
+                    %>
+                        <div class="item <%= activo%> otroslider" style="background-image: url(<%= ofrece.the_thumb_url%>);">                            
+                            
+                            <div class="carousel-caption d-none d-md-block">
+                                 <h3><%= ofrece.the_title%></h3>
+                                 <p><%= ofrece.the_excerpt%></p>
+                            </div>
+                        </div>
+                    <% end%>
+                </div>                
+                <a class="left carousel-control" data-target="#bootstrapSlider" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" data-target="#bootstrapSlider" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                        <span class="sr-only">Next</span>
+                    </a>                   
+                <ul class="carousel-indicators">
+                <%  current_site.the_posts("que-ofrece-baidata").decorate.each_with_index do |ofrece,index|
+                        activo = index == 0 ? "active" : ""
+                    %>
+                    <li data-target="#bootstrapSlider" data-slide-to="<%= index%>" class="<%= activo%>"><img src="<%= ofrece.the_thumb_url%>" width="150"></li>
+                    <% end%>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="sect4 interna" id="ventajas">
+        <div class="container">
+            <h2><%= current_theme.the_field('titulo-ventajas-baidata')%></h2>
+            <div class="contenido_interno">
+                <% current_site.the_posts("ventajas-baidata").decorate.each_with_index do |ventaja,index|
+                    if index == 3
+                     break
+                    end 
+                %>
+                <div class="item-mission col-xs-12 col-md-4">
+                    <img src="<%= ventaja.the_thumb_url%>" width="100">
+                    <h3><%= ventaja.the_title%></h3>
+                    <p><%= ventaja.the_excerpt%></p>
+                </div>
+                <% end%>
+                <% current_site.the_posts("ventajas-baidata").decorate.each_with_index do |ventaja,index|                
+                 if index == 2 %>
+                 <div class="item-mission d-none d-sm-block col-md-1">
+                 </div>
+                <% end
+                    if index > 2 %>
+                <div class="item-mission col-xs-12 col-md-5">
+                    <img src="<%= ventaja.the_thumb_url%>" width="100">
+                    <h3><%= ventaja.the_title%></h3>
+                    <p><%= ventaja.the_excerpt%></p>
+                </div>
+                <%   end 
+                    end%>
+            </div>
+        </div>
+    </section>   
+    <section class="sect5 interna" id="actividades">
+        <div class="container">
+            <h2><%= current_theme.the_field('titulo-actividades-principales')%></h2>
+            <div class="contenido_interno">
+                <div id="actppalcarrou" class="carousel slide" data-ride="carousel" data-interval="false">
+                <div class="carousel-inner">                
+                    <%  current_site.the_posts("actividades-principales").decorate.each_with_index do |ofrece,index|
+                        activo = index == 0 ? "active" : ""
+                    %>
+                        <div class="item <%= activo%>">                            
+                            <img src="<%= ofrece.the_thumb_url%>" class="img-fnd">
+                            <div class="carousel-caption d-none d-md-block">
+                                 <p><img src="<%= ofrece.the_field('icono-img')%>" class="img-ocin"></p>
+                                 <h3><%= ofrece.the_title%></h3>
+                                 <p><%= ofrece.the_excerpt%></p>
+                            </div>
+                        </div>
+                    <% end%>
+                    </div>                
+                    <a class="left carousel-control" data-target="#actppalcarrou" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" data-target="#actppalcarrou" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                        <span class="sr-only">Next</span>
+                    </a>                     
+                     <ul class="carousel-indicators">
+                     <%  current_site.the_posts("actividades-principales").decorate.each_with_index do |ofrece,index|
+                        activo = index == 0 ? "active" : ""
+                        %>
+                        <li data-target="#actppalcarrou" data-slide-to="<%= index%>" class="<%= activo%>">&nbsp;</li>
+                        <% end%>
+                    </ul>                                  
+                </div>
+                
+            </div>
+        </div>
+    </section>  
+    <section class="sect9 interna" id="socios">  
+        <div class="row">
+            <div class="container">
+                <h2><%= current_theme.the_field('titulo-socios')%></h2>
+                <section class="customer-logos slider" data-arrows="true">
+                    <%  current_site.the_posts("empresas").decorate.sort_by { |h| h[:title] }.each_with_index do |miembro,index|
+                        if(miembro.the_field("visible")=="1")
+                    %>
+                        <div class="slide"><img src="<%= miembro.the_thumb_url%>"></div>
+                        <% end%>                     
+                    <% end%>      
+                </section>           
+                <p>&nbsp</p>    
+                <p>
+                <a href="<%= cama_juntadir_url%>">
+                                                    <span class="badge badge-primary badge-pill registrarse">
+                                                       <%= t("conoce_a_la_junta")%>
+                                                    </span>   
+                                                </a>
+                </p>
+            </div>
+        </div>            
+    </section>
+    <section class="sect6 interna" id="unete">
+        <div class="container">
+            <h2><%= current_theme.the_field('titulo-unete')%></h2>
+            <div class="contenido_interno"><p><%= current_theme.the_field('descripcion-unete').html_safe %></p></div>                     	
+            <%= raw do_shortcode('[forms slug=unete-formulario]')%>
+        </div>
+    </section>     
+    
+    <%= render "camaleon_cms/flash_messages" %>
+    <%= render "layouts/footer" %>

@@ -1,0 +1,177 @@
+<%= render "/layouts/header2_index" %>
+<style>
+.panel-heading, .media_browser_list, .ajax-upload-dragdrop span{
+    display: none!important
+}
+.modal-dialog{
+    width: 30%!important;
+}
+.media_file_info_col{
+    width: 100%!important;
+}
+#cama_media_upload{
+    margin-top:30px
+}
+</style>
+<%= render 'camaleon_cms/flash_messages' %>   
+    <div class="container intranet-top">    
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="<%= cama_myprofile_path %>"><%= t("mi_area")%></a></li>
+                <li class="breadcrumb-item active" aria-current="page"><%= t('misformaciones')%></li>
+            </ol>
+        </nav>
+        <div class="titulo"><h2><%= t("misformaciones")%></h2>
+            <i class="fa fa-book" aria-hidden="true"></i><p><%= t("misformaciones_subt")%></p>
+        </div>
+    
+        <div class="row">     
+            <div class="bd-tab">   
+                <ul class="nav nav-pills">
+                    <li class="nav-item active">
+                        <a class="nav-link " aria-current="page" data-target="#mis_cursos" data-toggle="tab"><%= t('misinscripciones')%></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-target="#cursosvistos" data-toggle="tab"><%= t("historico")%></a>
+                    </li>
+                   
+                </ul>
+                <div class="tab-content ">                           
+                    <div class="tab-pane active" id="mis_cursos">                      
+                        <% if current_site.inscritos.decursos.decorreo(@user.email).size>0    
+                            contador = 0                                                                       
+                            current_site.inscritos.decursos.decorreo(@user.email).each_with_index do |inscripcion,index| 
+                                    micurso=current_site.the_posts("cursos").where(:id => inscripcion.idslug)
+                                    curso=micurso[0]
+                                    if((inscripcion.estatus =="espera" || inscripcion.estatus =="activo") && curso.get_field("fecha-curso").to_date > Date.today)
+                                        contador = contador + 1
+                                        %>
+                                        <div class="card">
+                                            <div class="card-content">
+                                                <nav class="navbar navbar-formacion bg-primary container-fluid">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div><i class='fa fa-book'></i></div>
+                                                        <div><p><span><%= I18n.l(Date.parse(curso.get_field("fecha-curso")), locale: :es, format: :long) %></span></p></div>
+                                                    </div>
+                                                </nav>
+                                                <div class="card-body">
+                                                    <div>
+                                                        <p><i class="fa fa-circle" style="padding-top: 2px;font-size: 14px;color:<%= curso.get_field("color")%>"></i> &nbsp;<b><%=curso.title.translate%></b></p>
+                                                        <%= curso.content.translate.html_safe %>
+                                                    </div>
+                                                    <div class="etiquetas">     
+                                                        <% if inscripcion.estatus="activo"%>
+                                                            <span class="btn btn-nuevo registrado"><%= t("already_registered")%> <i class="fa fa-check" style="font-size: 12px;float:none;"></i></span>
+                                                        <% elsif inscripcion.estatus="espera"%>
+                                                            <span class="btn btn-nuevo en_listaespera"><%= t("en_listae")%> <i class="fa fa-clock-o" style="font-size: 12px;float:none;"></i></span>                                   
+                                                        <% end%>                                                                                        
+                                                    </div>
+                                                    <br>
+                                                </div>
+                                            </div>
+                                        </div>                                                                                                      
+                                    <% end
+                                end
+                                if contador == 0%>
+                                        <div class="card">
+                                                <div class="card-content">                                       
+                                                    <div class="card-body">
+                                                        <div><p><%= t("notengocursos").html_safe %></p></div>                                        
+                                                    </div>
+                                                </div>
+                                        </div>                                    
+                             <% end       
+                        elsif%>
+                            <div class="card">
+                                <div class="card-content">                                       
+                                    <div class="card-body">
+                                        <div><p><%= t("notengocursos").html_safe %></p></div>                                        
+                                    </div>
+                                </div>
+                            </div>                                    
+                        <% end%>                                                                        
+                    </div>            
+                    <div class="tab-pane" id="cursosvistos">
+                      <% if current_site.inscritos.decursos.decorreo(@user.email).size>0%>                                                                           
+                            <% current_site.inscritos.decursos.decorreo(@user.email).each_with_index do |inscripcion,index| 
+                                    micurso=current_site.the_posts("cursos").where(:id => inscripcion.idslug)
+                                    curso=micurso[0]                          
+                                    tiene_vermas = 1
+                                    if curso.get_field("video-de-la-formacion").nil? && curso.get_fields_grouped(["titulo-material"]).nil? && curso.get_fields_grouped(["titulo-material"])[0]["titulo-material"][0].translate(I18n.locale.to_s).empty? && curso.get_fields_grouped(["archivo-material"])[0]["archivo-material"][0].translate(I18n.locale.to_s).empty?         
+                                        tiene_vermas = 0
+                                    end                                                                            
+                                    if(inscripcion.estatus =="activo" && curso.get_field("fecha-curso").to_date < Date.today)%>
+                                        <div class="card">
+                                            <div class="card-content">
+                                                <nav class="navbar navbar-formacion bg-primary container-fluid">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div><i class='fa fa-book'></i></div>
+                                                        <div><p><span><%= I18n.l(Date.parse(curso.get_field("fecha-curso")), locale: :es, format: :long) %></span></p></div>
+                                                    </div>
+                                                </nav>
+                                                <div class="card-body">
+                                                    <div>
+                                                        <p><i class="fa fa-circle" style="padding-top: 2px;font-size: 14px;color:<%= curso.get_field("color")%>"></i> &nbsp;<b><%=curso.title.translate%></b></p>
+                                                        <%= curso.content.translate.html_safe %>
+                                                    </div>                                                                                                      
+                                                    <div id="accordion" class="curso_acordion <%= "hidden" if tiene_vermas==0%>">
+                                                        <div class="card">
+                                                            <div class="card-header" id="headingOne">
+                                                                <h5 class="mb-0">
+                                                                    <button class="btn btn-link btn-header-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                    <%= t("vermas")%>
+                                                                    </button>
+                                                                </h5>
+                                                            </div>
+                                                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                                <div class="card-body">
+                                                                 <p><b><%= t("videoformacion")%></b></p>
+                                                                    <% if !curso.get_field("video-de-la-formacion").nil? %>
+                                                                    <%= raw curso.get_field("video-de-la-formacion").html_safe%>
+                                                                    <% end%>
+                                                                       <br>
+                                                                        <p><b><%= t("materialformativo")%></b></p>
+                                                                       <%
+                                                                       if !curso.get_fields_grouped(["titulo-material"])[0]["titulo-material"][0].empty? && !curso.get_fields_grouped(["archivo-material"])[0]["archivo-material"][0].empty?
+                                                                            curso.get_fields_grouped(["titulo-material","archivo-material"]).each_with_index do |materiale,index|  
+                                                                    %>  
+                                                                        <div>
+                                                                            <a href="<%= materiale["archivo-material"].first %>" target="_blank">
+                                                                                <img src="https://baidata.eu/media/1/download.png" class="download" alt="docs">
+                                                                                <p><%= materiale["titulo-material"].first.translate(I18n.locale.to_s) %></p>
+                                                                            </a>
+                                                                        </div>  
+                                                                    <%                                                                    
+                                                                            end
+                                                                       end
+                                                                    %>                                                                    
+                                                                       
+                                                                                                                                              
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>    
+
+                                                    <br>
+                                                </div>
+                                            </div>
+                                        </div>                                           
+                                    <% end%>   
+                            <% end%>                                                                    
+                        <% elsif%>
+                            <div class="card">
+                                <div class="card-content">                                       
+                                    <div class="card-body">
+                                        <div><p><%= t("notengocursos").html_safe %></p></div>                                        
+                                    </div>
+                                </div>
+                            </div>                                    
+                        <% end%>                                          
+                    </div>                                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<%= render "layouts/footer2" %>

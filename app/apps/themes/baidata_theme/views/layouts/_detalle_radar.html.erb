@@ -1,0 +1,488 @@
+<style>
+     .secradar {
+        /*background: #000;
+        padding-top: 1%;*/
+        padding-bottom: 2%;
+    }
+    .puntito{    
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        opacity: 1;
+        position: absolute;
+        margin-left: -25px;
+    }
+    .puntito_otro{    
+        width: 22px;
+        height: 22px;        
+        border: 3px solid #333;
+        border-radius: 50%;
+        opacity: 1;    
+        position: absolute;        
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .container_radar{ 
+       display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .fondo_radar{
+        background: url('media/1/fondo_radar_1.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        position:absolute;      
+       
+    }    
+    .fondo_borde_radar{
+        background: url('media/1/borde_radar_1.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        position:absolute;      
+    }    
+    input[type=range][orient=vertical]
+    {
+        writing-mode: bt-rl; /* IE */
+        -webkit-appearance: slider-vertical; /* Chromium */
+        width: 20px;
+        height: 400px;
+        padding: 0 60px;
+        transform: rotate(-180deg);
+    }
+    .textico{
+        text-transform: uppercase;
+        position: absolute;
+        color:#cc0000;
+        width: 5vw;
+        text-align: center;
+        font-size: 16px;
+    }
+    .aiz{
+        top: 20%;
+        left: 5%;
+    }
+    .ade{
+        top: 20%;
+        right: 5%;
+    }
+    .biz{
+        bottom: 20%;
+        left: 5%;
+    }
+    .bde{
+        bottom: 20%;
+        right: 5%;
+    }
+    @-webkit-keyframes rotating {
+        from{
+            -webkit-transform: rotate(15deg);
+        }
+        to{
+            -webkit-transform: rotate(0deg);
+        }  
+    }   
+
+    .rotarlo {
+        -webkit-animation: rotating 0.5s linear;
+    }
+    .cajas{
+        border: 1px solid #333;
+        border-radius: 10px;
+        opacity: 1; 
+    }
+    .cajas label{
+        color: #333;
+        margin:0px;
+        margin-left:10px;     
+    
+    }
+    .cajas ul{
+        list-style-type: none;
+        padding: 4vh 3.5vw;   
+    }
+    .cajas li{
+        padding:15px;
+    }
+    .caja1{
+        width: 15vw;
+        height: 10vw;
+    }
+    .caja2{
+        width: 25vw;
+        height: 35vw;
+        z-index: 2;
+        display:none;
+    }
+    .punto_ed{
+        background: #5B05CB;
+    }
+    .punto_cu{
+        background: #82378E;
+    }
+    .ancho{
+        width: 27vw;
+        height: 27vw;
+        padding: 0px;
+    }
+    .contenedor{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 35vw;
+    }
+    .fondo_pto{        
+        border-radius: 20px;
+        position: absolute;
+        margin-left:-17px;
+        margin-top:-15px;
+        padding: 5px;
+        
+    }
+    .fondo_pto label{
+        text-align: center;    
+        letter-spacing: 0.45px;
+        color: #E6E6E6;
+        opacity: 1;
+        padding-left: 30px;
+        padding-right: 10px;
+        margin:0px;
+        display:none;
+        font-size:0.95em;
+        max-width:8vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space:nowrap;
+    }
+    .cerrar{
+        border-radius: 50%;
+        border:1px solid #333;
+        color:#666666!important;
+        width:22px; 
+        height:22px;
+        float:right;
+        margin:11px;
+        text-decoration: none;
+        cursor: pointer;
+        text-align: center;
+    }
+    .cerrar:hover{
+        text-decoration: none;
+    }
+    #info_inicit{
+        padding: 30px;
+    }
+    .caja2 h3{
+        letter-spacing: 0.6px;
+    }
+    .caja2 h5{
+        color: #333;
+        font-weight: bold;
+    }
+    .caja2 hr{
+        border-top:1px solid #666666;
+        margin-top: 9px;
+        margin-bottom: 9px;
+    }
+    
+    .caja2 p{
+        color: #333;
+        margin:10px 0px;
+    }
+    .conscroll{
+        margin-top:5%;        
+        max-height:25vw;
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        padding: 0em 1em;
+    }
+    .conscroll ul{        
+        padding: 10px!important; 
+        color: #E6E6E6;   
+    }
+    html {
+        --scrollbarBG: #000;
+        --thumbBG: #666666;
+    }   
+    body {
+        scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+    }
+    .conscroll::-webkit-scrollbar{
+        width:5px;
+    }
+    .conscroll::-webkit-scrollbar-track {
+        background: var(--scrollbarBG);
+    }
+    .conscroll::-webkit-scrollbar-thumb {
+        background-color: var(--thumbBG) ;
+        border-radius: 6px;
+    }
+    .container_segundo{
+        position: absolute;
+        width:100%;
+    }
+    @media screen and (max-width:1440px) {
+        .caja1 {
+        width: 20vw;
+        height: 12vw;
+        }
+
+        .ancho {
+    width: 32vw;
+    height: 32vw;
+    }
+    }
+    @media screen and (max-width:1200px) {
+        .secradar {
+            margin-top: -25px;
+            padding-top: 8%;
+        }
+        .contenedor{
+            height: 60vw;
+        }
+        .container_radar{
+            height: 47vw;
+        }
+        .container_segundo{
+            height: 47vw;            
+        }
+        .ancho{
+            width: 43vw;
+            height: 40vw;          
+        }
+        .caja1{
+            width: 24vw;
+            height: auto;   
+        }
+        .caja2{
+            width: 75vw;
+            height: 60vw;    
+        }
+        .textico{
+            width: 26vw;
+            font-size: 14px;
+        }
+        .aiz{
+            top: 0;
+            left: 1%;
+        }
+        .ade{
+            top: 0;
+            right: -2%;
+        }
+        .biz{
+            bottom: 0;
+            left: 2%;
+        }
+        .bde{
+            bottom: 0;
+            right: -2%;
+        }
+        .conscroll {
+           max-height: 100vw; 
+        }
+    }
+    @media screen and (max-width:980px) {
+        .cajas ul {
+            padding: 2vh 3vw;
+        }
+
+        .container_segundo {
+            height: auto;
+            margin-top: -4em;
+        }
+        .contenedor {
+            height: 50vh;
+        }  
+        .ancho {
+            width: 47vw;
+            height: 45vw;
+        }
+
+        .caja1 {
+            width: auto;
+        }
+
+    }
+
+    @media screen and (max-width:480px) {
+        .secradar {
+            margin-top: -25px;
+            padding-top: 8%;
+        }
+        .contenedor{
+            height: 135vw;
+        }
+        .container_radar{
+            height: 80vw;
+            margin: 2em 0em;
+        }
+        .container_segundo{
+            height: 80vw;
+        }
+        .ancho{
+            width: 85vw;
+            height: 80vw;          
+        }
+        .caja1{
+            width: 60vw;
+            height: auto;    
+        }
+        .caja2{
+            width: 85vw;
+            height: 120vw;    
+        }
+        .cajas ul {
+        padding: 4vh 10vw;
+        }
+
+        .textico{
+            width: 26vw;
+            font-size: 14px;
+        }
+        #info_inicit {
+           padding: 30px 20px;
+        }
+        .aiz{
+            top: 0;
+            left: 1%;
+        }
+        .ade{
+            top: 0;
+            right: -2%;
+        }
+        .biz{
+            bottom: 0;
+            left: 2%;
+        }
+        .bde{
+            bottom: 0;
+            right: -2%;
+        }
+        .conscroll {
+           max-height: 85vw; 
+        }
+    }
+    .fondo_pto label{
+        max-width: 30vw;
+    }
+</style>
+<section class="secradar">
+    <div class="container">
+        <div class="row">           
+            <div class="col-md-7">
+                <div class="container_radar contenedor">
+                    <span class="textico aiz"><%= t("movilidad")%></span>
+                    <span class="textico ade"><%= t("smartcity")%></span>
+                    <span class="textico biz"><%= t("automocion")%></span>
+                    <span class="textico bde"><%= t("otrossect")%></span>
+                    
+                    <div class="fondo_radar ancho"></div>
+                    <div class="fondo_borde_radar rotarlo ancho"></div>                 
+                    <%  total=0
+                    current_site.the_posts("radar-baidata").decorate.each_with_index do |cadapto,index| 
+                                                      
+                                    tootip=cadapto.title.translate(I18n.locale.to_s)                
+                                    if tootip.length>1                                     
+                                        total+=1
+                                        parse= JSON(cadapto.get_field("ubica_punto"))
+                                        top= parse["pto_pos_top"] 
+                                        left= parse["pto_pos_left"]
+                                        color="#5B05CB" if (cadapto.get_field("tipo-de-iniciativa")=="1")   
+                                        color="#82378E" if (cadapto.get_field("tipo-de-iniciativa")=="2")
+                                    end
+                                       
+                        %>
+                        <input type="hidden" id="hizcli_<%= index%>" value="0">
+                        <input type="hidden" id="idiomaz" name="idiomaz" value="<%= I18n.locale.to_s%>">
+                        <div class="fondo_pto" id="fondopto_<%= index%>" style="left: <%= left%>%; top: <%= top%>%;"><a onclick="muestra_detalle('<%= color%>',<%= index%>,<%= cadapto.id%>)" onmouseover="muestra_tooltip('<%= color%>',<%= index%>)" onmouseout="oculta_tooltip(<%= index%>)" id="punto_<%= index%>" class="puntito_otro" style="background: <%= color%>;"></a> <label><%= tootip%></label></div>
+                    <% end%>
+                    <input type="hidden" id="totalptos" value="<%= total%>">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="contenedor container_segundo">
+                    <div class="cajas caja1">
+                        <ul>
+                            <li><div id="elpuntinto" class="puntito punto_ed"></div> <label><%= t("espacio_de_datos")%></label></li>
+                            <li><div id="elpuntinto" class="puntito punto_cu"></div> <label><%= t("casos_de_uso")%></label></li>
+                        </ul>                                        
+                    </div>
+                </div>    
+                <div class="contenedor">
+                    <div class="cajas caja2">
+                        <a class="cerrar" onclick="cierracaja()">X</a>
+                        <div id="info_inicit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+
+    function cierracaja(){
+        $(".caja2").hide()
+        $(".caja1").show(300)
+        total=$("#totalptos").val()
+        for(i=0;i<total;i++)
+         {              
+            $("#hizcli_"+i).val("0")
+            oculta_tooltip(i)                                                        
+         }
+    }
+
+    function muestra_tooltip(color,index){
+        $("#fondopto_"+index).css("background",color)
+        $("#fondopto_"+index+" label").show()
+    }
+
+    function oculta_tooltip(index){
+        if($("#hizcli_"+index).val()=="0")
+          { 
+            $("#fondopto_"+index).css("background",'transparent')
+            $("#fondopto_"+index+" label").hide()
+            $("#fondopto_"+index+" a").css("width","22px")
+            $("#fondopto_"+index+" a").css("height","22px")
+            $("#fondopto_"+index+" a").css("margin","-0px")  
+          }
+    }
+    function muestra_detalle(color,index,clave)
+    {
+
+        $.ajax({
+                type: 'GET',
+                url: "/inf_inicitva_ajx",
+                data: {id: clave, idiomaz: $("#idiomaz").val()},
+                success: function (res) {
+                    $("#info_inicit").html(res)
+                    muestra_detalle_pos_ajax(color,index)
+                },                
+                dataType: 'html',
+                async: false
+            });
+    }
+
+    function muestra_detalle_pos_ajax(color,index){          
+        muestra_tooltip(color,index)
+        
+        $(".caja1").hide()
+        $(".caja2").show(300)
+        total=$("#totalptos").val()
+        for(i=0;i<total;i++)
+         {            
+            if(i!=index && $("#hizcli_"+i).val()=="1")
+             {                
+                $("#hizcli_"+i).val("0")
+                oculta_tooltip(i)                              
+             }                
+         }
+        $("#hizcli_"+index).val("1")
+        $("#fondopto_"+index).css("background",color)
+        $("#fondopto_"+index+" label").show()
+                
+        $("#fondopto_"+index+" a").css("width","30px")
+        $("#fondopto_"+index+" a").css("height","30px")
+        $("#fondopto_"+index+" a").css("margin","-5px")        
+    }
+
+</script>

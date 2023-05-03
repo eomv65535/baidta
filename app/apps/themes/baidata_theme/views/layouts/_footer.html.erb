@@ -1,0 +1,40 @@
+<section class="sect7 interna">
+    <div class="container">
+        <% current_site.the_posts("redes-sociales").decorate.each_with_index do |redsoc,index| %>
+            <a href="<%= redsoc.get_field('enlace')%>" target="_blank" rel="noopener noreferrer"> <i
+                    class="fa <%= redsoc.get_field('icono')%>"></i> </a>
+        <% end %>
+    </div>
+</section>
+<section class="sect8 interna">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-4">
+                <h5><%= t("footer1")%></h5>
+                <img src="/media/1/logo_idsa.png" class="img-responsive">
+            </div>            
+            <div class="col-xs-12 col-md-4">
+                <h5><%= t("footer2")%></h5>
+                <div class="col-xs-12">
+                    <img src="/media/1/Logo_Asociacion_blanco.png" width="190" class="img-responsive">
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-4">
+                <h5><%= t("footer3")%></h5>                
+                <div class="col-xs-12 col-md-6">
+                    <img src="/media/1/logo_lantik_negativo.png" class="img-responsive" width="130">
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <img src="/media/1/logo_gaia_negativo.png" width="150" class="img-responsive">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer id="main-footer">
+    <div id="footer-bottom">
+        <div class="container clearfix">
+            <div id="footer-info">© <%=Date.today.year%> | All Rights Reserved | Privacy Policy </div>
+        </div>
+    </div>
+</footer>

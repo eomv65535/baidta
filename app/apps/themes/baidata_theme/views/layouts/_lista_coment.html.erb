@@ -1,0 +1,27 @@
+<div class="comentarios">
+    <div class="h6"><%= t("comentariosu")%></div>
+    asda
+    <% @comentarios.each_with_index do |comentado,index|                                                           
+            unusr = current_site.users.find_by_id(comentado.user_id)
+        %>                            
+            <div id="comentario">
+                <div class="menu-badges">
+                    <div id="profile" style="background-image:url(<%= unusr.decorate.the_avatar %>); margin-right:2em;"></div>
+                    <div class="user-comentario">
+                        <a href="<%= cama_url_to_fixed("cama_member_group_path", {w: muro.user_id, g: @post.id})%>"><strong><%= unusr.first_name %> <%= unusr.last_name %></strong></a>
+                        <p class="subtitulo"><%= distance_of_time_in_words(comentado.created_at, Time.now) %></p>
+                    </div>
+                </div>
+                <div class="comentario-contenido">
+                    <p><%= comentado.texto%></p>
+                </div>
+            </div>
+    <% end %>
+    <p>&nbsp;</p>
+    <div class="input-comentario input-group">
+        <input type="text" class="form-control" placeholder="Comenta esta publicación">
+        <span class="input-group-btn">
+        <button class="btn btn-primary" type="button">Comentar</button>
+        </span>
+    </div>                    
+ </div>                    

@@ -1,0 +1,145 @@
+<header class="headerinterno">
+    <nav class="navbar navbar-fixed-top bai_top">        
+      <div class="container">
+          <div class="navbar-header">
+              <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              
+         <a id="logo" class="navbar-brand sml-logo" href="<%= current_site.the_url %>">
+          <%= image_tag current_site.the_logo, class: "img-responsive" %>
+        </a>
+          </div>          
+          <div id="navbarCollapse" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav navbar-right arriba visible-md visible-lg">
+                  <li><a target="_blank" rel="noopener" href="https://internationaldataspaces.org/">IDSA</a></li>
+                  <li>
+                      <ul class="nav navbar-nav navbar-right">
+                            <% if signin? %>
+                             <li id="cmisms"><a href="<%= cama_misms_path%>">
+                                <i class="fa fa-comment"></i> <span style="font-size: 11px;"> 0</span>
+                              </a></li>
+                            <li class="dropdown">
+                              <a class="dropdown-toggle" href="#"><img src="<%= cama_current_user.decorate.the_avatar %>"
+                                  style="max-width: 16px; border-radius: 50%" alt="" />
+                                <%= cama_current_user.username %>
+                              </a>
+                              <ul class="dropdown-menu">
+                                <li><a href="<%= cama_myprofile_path %>">
+                                    <%= t('mi_area')%>
+                                  </a></li>
+                                <li><a href="<%= cama_logout_path %>">
+                                    <%= I18n.t('camaleon_cms.common.logout')%>
+                                  </a></li>
+                              </ul>
+                            </li>
+                            <% else %>
+                              <li class="dropdown">
+                                <a id="login-user" class="dropdown-toggle" href="<%= cama_login_path %>"><%= I18n.t('login')%></a>
+                              </li>
+                            <% end %>
+                      </ul>
+                </li>
+                <li class="dropdown">
+                  <%=raw baidata_dibuja_idiomas %>
+                </li>
+              </ul>
+              <ul class="nav navbar-nav menu_baidata_index">
+                  <li class="menu-item  current-menu-item dropdown">                  
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= t("acercade")%> <span class="caret"></span></a>                               
+                    <ul class="dropdown-menu">
+                      <li><a href="<%= current_site.the_url %>#baidata"><%= I18n.t('quienes_somos')%></a></li>
+                      <li><a href="<%= current_site.the_url %>#mision"><%= I18n.t('mision')%></a></li>
+                      <li><a href="<%= current_site.the_url %>#ventajas"><%= I18n.t('ventajas')%></a></li>
+                      <li><a href="<%= current_site.the_url %>#socios"><%= I18n.t('socios')%></a></li>
+                    </ul>             
+                  </li>
+                
+                  <li class="menu-item  current-menu-item ">
+                    <a href="<%= current_site.the_url %>#actividades" class="current-link  menu_link"><%= I18n.t('actividades')%></a>                 
+                  </li>
+                  <li class="menu-item  current-menu-item ">
+                    <a href="<%= cama_cursos_path %>" class="current-link  menu_link"><%= I18n.t('formaciones')%></a>                 
+                  </li>
+                  
+                  <li class="menu-item  current-menu-item dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= t("actualida")%> <span class="caret"></span></a>                  
+                    <ul class="dropdown-menu">
+                     <li><a href="<%= cama_noticias_path %>"><%= t('noticias')%></a></li>   
+                      <li><a href="<%= cama_events_path %>"><%= t('eventis')%></a></li>                    
+                    </ul>             
+                  </li>
+                  <li class="menu-item  current-menu-item dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= I18n.t('oportunidades')%> <span class="caret"></span></a>
+                     <ul class="dropdown-menu">
+                      <li><a href="<%= cama_oportunidad_path %>"><%= t('bonos')%></a></li>
+                      <% if signin? %>
+                        <li><a href="<%= cama_convocatorias_path %>"><%= t('convocatorias')%></a></li>                      
+                      <% end %>
+                    </ul>
+                  </li> 
+                  <li class="menu-item  current-menu-item ">
+                    <a href="<%= current_site.the_url %>#unete" class="current-link  menu_link"><%= I18n.t('unete')%></a>                 
+                  </li>                
+              </ul>
+            <ul class="nav navbar-nav navbar-right arriba visible-xs visible-sm">
+                  <li><a target="_blank" rel="noopener" href="https://internationaldataspaces.org/">IDSA</a></li>
+                  <li>
+                      <ul class="nav navbar-nav navbar-right">
+                             <% if signin? %>
+                              <li id="cmisms"><a href="<%= cama_misms_path%>">
+                                <i class="fa fa-comment"></i> <span style="font-size: 11px;"> 0</span>
+                              </a></li>
+                            <li class="dropdown">
+                              <a class='dropdown-toggle' data-toggle='dropdown'><img src="<%= cama_current_user.decorate.the_avatar %>"
+                                  style="max-width: 16px; border-radius: 50%" alt="" />
+                                <%= cama_current_user.username %> <span class="caret"></span>
+                              </a>
+                              <ul class="dropdown-menu">
+                                <li><a href="<%= cama_myprofile_path %>">
+                                    <%= t('mi_area')%>
+                                  </a></li>
+                                <li><a href="<%= cama_logout_path %>">
+                                    <%= I18n.t('camaleon_cms.common.logout')%>
+                                  </a></li>
+                              </ul>
+                            </li>
+                            <% else %>
+                              <li class="dropdown">
+                                <a id="login-user" class="dropdown-toggle" href="<%= cama_login_path %>"><%= I18n.t('login')%></a>
+                              </li>
+                            <% end %>
+                      </ul>
+                </li>
+                <li class="dropdown">
+                  <%=raw baidata_dibuja_idiomas %>
+                </li>
+              </ul>
+            </div>            
+        </div>
+    </nav>
+</header>
+<script type="text/javascript">
+<% if signin? %>
+  $(document).ready(function(){
+    timeout = setInterval(carga_csms, 120000);       
+    });
+  carga_csms()
+  function carga_csms()
+    {    
+        $.ajax({
+                    type: 'GET',
+                    url: "/carga_csms_ajax",         
+                    success: function (response) {                        
+                       var res = $.parseJSON(response);
+                        $("#cmisms").html(res.contenido)            
+                    },                
+                    dataType: 'html',
+                    async: false
+                });
+    }
+<% end %>
+</script>

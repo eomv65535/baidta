@@ -1,0 +1,81 @@
+
+<div class="container intranet-top">            
+    <div class="titulo"><h2><%= t("eventis")%></h2> <i class="fa fa-calendar" aria-hidden="true"></i><p><%= t("subteventos")%></p> </div>      
+    <div class="tab-content">  
+        <% current_site.the_posts("events").decorate.sort_by { |h| h.get_field("inicio-evento") }.each_with_index do |evento,index|         
+                        
+                if ((evento.get_field("es-evento-privado")=="0" || current_user.present?) && evento.get_field('fin-evento').nil? && evento.get_field("inicio-evento").to_date >= Date.today) || (!evento.get_field('fin-evento').nil? && evento.get_field("fin-evento").to_date >= Date.today)%>
+            <div class=" col-xs-12 col-lg-4">                    
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                         <%  if evento.get_field("evento-baidata") == "1" || evento.get_field("evento-baidata") == "2" || evento.get_field("participa-baidata") == "1" %>
+                            <div class="cinta_baidata">
+                                <img src="/media/1/icono.png" alt="Asiste BaiData">
+                           </div> 
+                         <% end%>  
+                            <div class="wpem-from-date">
+                                <div class="wpem-date"><%= I18n.l(Date.parse(evento.get_field("inicio-evento")), locale: I18n.locale, format: "%d") %></div>
+                                <div class="wpem-month"><%= I18n.l(Date.parse(evento.get_field("inicio-evento")), locale: I18n.locale, format: "%b") %></div>
+                            </div>
+                            <a href="<%= evento.the_url %>">                                     
+                                <img src="<%= evento.the_thumb_url%>" class="imgevtos">
+                                <h3 class="title-evt line-clamp"><%= evento.the_title%></h3>               
+                            </a>    
+                            <p class="pevt"><i class="fa fa-calendar"></i> 
+                            <%= I18n.l(Date.parse(evento.get_field("inicio-evento")), locale: I18n.locale, format: :long) if evento.get_field('fin-evento').nil?%>
+                            <%= I18n.l(Date.parse(evento.get_field("inicio-evento")), locale: I18n.locale, format: :short) + ' - ' + I18n.l(Date.parse(evento.get_field("fin-evento")), locale: I18n.locale, format: :short)  if !evento.get_field('fin-evento').nil? %>
+                            </p> 
+                            <p class="pevt"><i class="fa fa-map-marker"></i> <%= evento.get_field("ubicacion-evento") %></p>                                        
+                            <div class="etiquetas" style="text-align: center;">
+                                <a class="shortcode_lightbox" href="<%= evento.the_url %>"> <%= I18n.t :continualeyendo %></a>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>                    
+            </div>
+        <%      end
+            end%>            
+    </div>
+</div>
+<div class="container intranet-top">                 
+    <div class="titulo"><h2><%= t("eventis_ant")%></h2> <i class="fa fa-calendar-check-o"></i><p>&nbsp;</p></div>
+    <div class="tab-content">  
+        <% current_site.the_posts("events").decorate.sort_by { |h| h.get_field("inicio-evento") }.reverse.each_with_index do |evento,index| 
+                if ((evento.get_field("es-evento-privado")=="0" || current_user.present?) && evento.get_field('fin-evento').nil? && evento.get_field("inicio-evento").to_date < Date.today) || (!evento.get_field('fin-evento').nil? && evento.get_field("fin-evento").to_date < Date.today)%>                           
+            <div class=" col-xs-12 col-lg-4">                    
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                        <%  if evento.get_field("evento-baidata") == "1" || evento.get_field("evento-baidata") == "2" || evento.get_field("participa-baidata") == "1"%>
+                            <div class="cinta_baidata">
+                                <img src="/media/1/icono.png" alt="Asiste BaiData">
+                           </div> 
+                         <% end%>  
+                            <div class="wpem-from-date">
+                                <div class="wpem-date"><%= I18n.l(Date.parse(evento.get_field("inicio-evento")), locale: I18n.locale, format: "%d") %></div>
+                                <div class="wpem-month"><%= I18n.l(Date.parse(evento.get_field("inicio-evento")), locale: I18n.locale, format: "%b") %></div>
+                            </div>
+                         
+                            <a href="<%= evento.the_url %>">                                     
+                                <img src="<%= evento.the_thumb_url%>" class="imgevtos imgfiltrada">
+                                <h3 class="title-evt line-clamp"><%= evento.the_title%></h3>               
+                            </a>    
+                            <p class="pevt"><i class="fa fa-calendar"></i> 
+                            <%= I18n.l(Date.parse(evento.get_field("inicio-evento")), locale: I18n.locale, format: :long) if evento.get_field('fin-evento').nil?%>
+                            <%= I18n.l(Date.parse(evento.get_field("inicio-evento")), locale: I18n.locale, format: :short) + ' - ' + I18n.l(Date.parse(evento.get_field("fin-evento")), locale: I18n.locale, format: :short)  if !evento.get_field('fin-evento').nil? %>
+                            </p> 
+                            <p class="pevt"><i class="fa fa-map-marker"></i> <%= evento.get_field("ubicacion-evento") %></p>                               
+                            <div class="etiquetas" style="text-align: center;">
+                                <a class="shortcode_lightbox" href="<%= evento.the_url %>"> <%= I18n.t :continualeyendo %></a>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>                    
+            </div>
+       <%       end   
+            end%>          
+    </div>
+</div>         

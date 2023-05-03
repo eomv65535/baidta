@@ -1,0 +1,75 @@
+<div class="columnas">
+    <div class="columna-main">
+        <input type="hidden" id="idiomaz" name="idiomaz" value="<%= I18n.locale.to_s%>">
+        <div class="tarjeta">
+            <%= form_tag(cama_guarda_pub_team_url, method: :post, :multipart => true, id: "guardarpubt") do %>  
+                <%= render partial: "camaleon_cms/flash_messages", locals:{ flash: (flash[:custom_registro] || {}).with_indifferent_access }%>
+                <input type='hidden' name="id_equipo" value='<%= raw @post.id%>'>
+                <div class="menu-badges d-flex">
+                    <p class="badges"><i class="fa fa-commenting" aria-hidden="true"></i> <%= t("mensaje")%> </p>
+                    <p class="badges"><a onclick="muestra_inp(2)"><i class="fa fa-picture-o" aria-hidden="true"></i> <%= t("foto")%> </a></p>
+                    <p class="badges"><a onclick="muestra_inp(3)"><i class="fa fa-link" aria-hidden="true"></i> <%= t("enlace")%> </a></p>
+                </div>
+                <hr>
+                <div id="publicar" class="d-flex">
+                    <div id="profile" style="background-image:url(<%= current_user.decorate.the_avatar %>); margin-right:2em;"></div>                                
+                    <textarea name="texto" placeholder="<%= t("compartiren")%> <%= @post.the_title%>"></textarea>                                                          
+                </div>
+                <div id="publicaradj" class="publicar2">
+                    <div style="margin-right:2em;width: 65px;height: 50px;" id=""></div>     
+                    <input class="form-control" type="file" name="adjunto" id="adjunto">                             
+                </div>
+                <div id="publicarlk" class="publicar2">
+                    <div style="margin-right:2em;width: 65px;" id=""></div>    
+                    <input class="form-control" type="texto" name="link" id="link" placeholder="Enlace">                             
+                </div>
+                <hr>
+                <div id="acciones-publicar" class="d-flex">
+                    <div> </div>                                                                
+                    <button type="submit" class="action-primary"><i class="fa fa-share-o" aria-hidden="true"></i> <%= t("publicar")%></button>                                                                                                                                                 
+                </div>
+            <% end %>
+        </div>              
+        <%= render partial: "layouts/lista_muro" %>   
+        
+    </div>               
+    <div class="columna-side">                        
+            <div class="tarjeta side">
+                <div class="menu-badges d-flex">
+                    <p class="side-title"><i class="fa fa-align-justify" aria-hidden="true"></i> <%= t("resumen")%></p>
+                </div>
+                <hr>
+                <div class="side-content">
+                    <p><%= @post.the_excerpt %></p>
+                </div>
+            </div>
+            <div class="tarjeta side">
+                <div class="menu-badges d-flex">
+                    <p class="side-title"><i class="fa fa-users" aria-hidden="true"></i> <%= t("miembreequipe")%></p>
+                </div>
+                <hr>
+                <%= render partial: "layouts/miembros_grupo" %>                            
+            </div>
+     </div>        
+</div>
+<script type="text/javascript">
+    $("#publicaradj").hide();
+    $("#publicarlk").hide();
+
+    function muestra_inp(cual){
+        if(cual == 2)
+         {
+            if ($("#publicaradj").css("display") == "none")
+                $("#publicaradj").css("display","flex");            
+            else    
+                $("#publicaradj").hide();
+         }
+        else if(cual == 3) 
+        {
+             if ($("#publicarlk").css("display") == "none")
+                $("#publicarlk").css("display","flex");
+             else    
+                $("#publicarlk").hide();   
+        }
+    }
+</script>

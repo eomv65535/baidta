@@ -1,0 +1,47 @@
+<%= render "/layouts/header2_index"%>
+  <div id="contenedor-general" class="container-fluid m-0 p-0 fondo">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="<%= cama_myprofile_path %>"><%= t("mi_area")%></a></li>
+                    <li class="breadcrumb-item"><a href="<%= cama_equipostrab_path%>"><%= t("equiposdetrabajo")%></a></li>                    
+                    <li class="breadcrumb-item"><a href="<%= @post.the_url%>"><%= @post.the_title%></a></li>                                
+                    <li class="breadcrumb-item active" aria-current="page"><%= @user.first_name + " " + @user.last_name%></li>
+                </ol>
+            </nav>
+        <div>
+        <div id="cabecera" class="container d-flex" style="background-image:url(<%= @post.get_field("image-top-equipo")%>);">
+                <div id="info" class="container-fluid">
+                    <div id="" class="container">
+                    <div id="info-grupo" class="d-flex">
+                        <img class="profile-image" src="<%= @user.the_avatar%>" />
+                        <div id="titulo-grupo" class="">
+                            <p id="titulo"><%= @user.first_name + " " + @user.last_name %></p>
+                            <p class="subtitulo"><%= raw current_site.the_posts("empresas").where(:id => @user.get_field("empresa"))[0]["title"].translate('es')%></p>
+                        </div>
+                        <div id="metricas" class="row">
+                            <div class="row d-flex">
+                                <div class="col d-flex flex-column justify-content-center align-items-center"><span class="numerogrande"><%= current_site.muros.porequipo(@post.id).porusr(@user.id).count%></span><span class="subtitulo">POSTS</span></div>                                
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div id="contenedor-contenido" class="container">                
+                <div id="menu-container" class="tarjeta d-flex">
+                    <div id="menu" class="d-flex">
+                
+                        <a class="item-menu active"><i class="fa fa-share-square-o" aria-hidden="true"></i> POST</a>                        
+                   
+                    </div>
+                    <div id="accions-menu">                     
+                        <a style="color:white !important"href="<%= cama_url_to_fixed("cama_misms_path", {w: @user.id})%>" class="action-primary"><i class="fa fa-envelope-o" aria-hidden="true"></i> <%= t("enviamens")%></a>                     
+                    </div>
+                </div>                               
+                     <%= render partial: "layouts/detalle_muro_usr" %>          
+                   
+        </div>
+    </div>
+</div>    
+<%=  render "layouts/footer2" %>

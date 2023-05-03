@@ -1,0 +1,49 @@
+<%= render "/layouts/header2_index" %>
+
+<div class="container intranet-top">    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="<%= cama_myprofile_path %>"><%= t("mi_area")%></a></li>
+            <li class="breadcrumb-item"><a href="<%= cama_adminempre_path %>"><%= t("administracion")%></a></li>
+            <li class="breadcrumb-item active" aria-current="page"><%= t('datos_mi_empresa')%></li>
+        </ol>
+    </nav>
+    <div class="titulo"><h2><%= t("datos_mi_empresa")%></h2>
+        <i class="fa fa-edit" aria-hidden="true"></i><p><%= t("admin_subt")%></p>
+    </div>
+  
+    <div class="container">                                   
+            <div id="administracion">               
+               <%= form_tag(plugins_custom_registro_actdatsempre_url, method: :post, id: "actdatsempr") do %>           
+               <%= render partial: "camaleon_cms/flash_messages", locals:{ flash: (flash[:custom_registro] || {}).with_indifferent_access }%>                      
+               <input type="hidden" name="iderxs" id="iderxs" value="<%= @mi_empresa_id %>">
+                <div class="registration-form2">                     
+                    <%= render partial: 'layouts/camaleon_cms/admin/form_error', locals: {data: @user} %>                                                                                                         
+                    <div class="titulo"><h4><%= t('actualiza_datos')%></h4></div>                                                              
+                    <div class="form-group col-md-12">
+                        <label><%= I18n.t('camaleon_cms.admin.table.e_mail')%></label>
+                        <input type="text" class="inputcontacto" style="border: solid #f2f2f2 1px;" name="correo-electronico" id="correo-electronico" value="<%= @miempresa.get_field("correo-electronico") %>">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label><%= t('telf')%></label>
+                        <input type="text" class="inputcontacto" style="border: solid #f2f2f2 1px;" name="telefono" id="telefono" value="<%= @miempresa.get_field("telefono") %>">
+                    </div>
+                    
+                    <div class="form-group col-md-12">
+                        <label><%= t('direccion')%></label>
+                        <input type="text" class="inputcontacto" style="border: solid #f2f2f2 1px;" name="direccion" id="direccion" value="<%= @miempresa.get_field("direccion") %>">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label><%= t('pag_web')%></label>
+                        <input type="text" class="inputcontacto" style="border: solid #f2f2f2 1px;" name="pagina-web" id="copaginarreo-web" value="<%= @miempresa.get_field("pagina-web") %>">
+                    </div>
+                    <div class="form-group" style="text-align: center;">
+                        <button type="submit" class="btn create-account" ><%= t('camaleon_cms.admin.button.update') %></button> 
+                    </div>        
+                 </div>                             
+                <% end %>                     
+            </div>                      
+    </div>
+</div>
+
+<%= render "layouts/footer2" %>

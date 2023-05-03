@@ -1,0 +1,111 @@
+<%= render "/layouts/header2_index" %>
+<div class="container intranet-top">
+    <div class="titulo"><h2><%= t("mi_area")%></h2>
+        <i class="fa fa-th-large" aria-hidden="true"></i><p><%= t("miarea_subt")%></p>
+    </div>
+    <div class="row">
+         <a class="stretched-link text-decoration-none" href="<%= cama_misdatos_path%>">
+            <div class="col-md-4 col-xl-3 landing">
+                <div class="card bg-c-blue order-card">
+                    <div class="card-block">                    
+                        <span></span>                    
+                        <h2 class="text-right"><i class='fa fa-user'></i><span></span></h2><br>
+                    <p class="m-b-0"><%= I18n.t('profile')%><span class="f-right"></span></p> 
+                    </div>
+                </div>
+            </div>       
+          </a>   
+         <%  if current_user.role!="stream" && current_user.role!="oportunidades" %> 
+            <a class="stretched-link text-decoration-none" href="<%= cama_miformacion_path%>">
+                <div class="col-md-4 col-xl-3 landing">
+                    <div class="card bg-c-blue order-card">
+                        <div class="card-block">                    
+                            <span></span>                    
+                            <h2 class="text-right"><i class='fa fa-book'></i><span></span></h2><br>
+                        <p class="m-b-0"><%= t("misformaciones")%><span class="f-right"></span></p> 
+                        </div>
+                    </div>
+                </div>       
+            </a>  
+          <% end%> 
+          <%  if current_user.role!="stream" && current_user.role!="oportunidades" %> 
+            <a class="stretched-link text-decoration-none" href="<%= cama_equipostrab_path%>">
+                <div class="col-md-4 col-xl-3 landing">
+                    <div class="card bg-c-blue order-card">
+                        <div class="card-block">
+                            <span></span>                    
+                            <h2 class="text-right"><i class='fa fa-spinner'></i></i><span></span></h2><br>
+                            <p class="m-b-0"><%= t("equiposdetrabajo")%><span class="f-right"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+          <% end%>   
+          <%  if current_user.role!="stream" %>
+            <a class="stretched-link text-decoration-none <%= "hidden" if current_user.role=="stream"%>" href="<%= cama_misoportunidades_path%>">
+                <div class="col-md-4 col-xl-3 landing">
+                    <div class="card bg-c-blue order-card">
+                        <div class="card-block">
+                            <span></span>                    
+                            <h2 class="text-right"><i class='fa fa-diamond'></i></i><span></span></h2><br>
+                            <p class="m-b-0"><%= t("bonos")%><span class="f-right"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <% end%>  
+            <%  if current_user.role!="stream" && current_user.role!="oportunidades" %> 
+            <a class="stretched-link text-decoration-none" href="<%= cama_radar_baidata_path%>">
+                <div class="col-md-4 col-xl-3 landing">
+                    <div class="card bg-c-blue order-card">
+                        <div class="card-block">
+                            <span></span>                    
+                            <h2 class="text-right"><i class='fa fa-bullseye'></i><span></span></h2><br>
+                            <p class="m-b-0">Radar<span class="f-right"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <% end%> 
+            <%  if current_user.role=="junta-directiva"%> 
+            <a class="stretched-link text-decoration-none" href="<%= cama_reuniones_junta_path%>">
+                <div class="col-md-4 col-xl-3 landing">
+                    <div class="card bg-c-blue order-card">
+                        <div class="card-block">
+                            <span></span>                   
+                            <h2 class="text-right"><i class='fa fa-black-tie'></i><span></span></h2><br>
+                            <p class="m-b-0"><%= t("misreuniones")%><span class="f-right"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <% end%> 
+            <%  if current_user.role=="clientadmin"%>
+            <a class="stretched-link text-decoration-none" href="<%= cama_adminempre_path%>">
+                <div class="col-md-4 col-xl-3 landing">
+                    <div class="card bg-c-blue order-card">
+                        <div class="card-block">
+                            <span></span>                   
+                            <h2 class="text-right"><i class='fa fa-building'></i><span></span></h2><br>
+                            <p class="m-b-0"><%= t("administracion")%><span class="f-right"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </a>  
+            <% end%> 
+    </div>
+</div>
+<script>
+$(document).ready(function() { 
+  $(".stretched-link" ).hover(
+    function() {
+        $('> .landing .order-card', this).addClass('cambia_fondo_card').css('cursor', 'pointer'); 
+    }, function() {
+        $('> .landing .order-card', this).removeClass('cambia_fondo_card');
+    }
+    );  
+});
+
+
+</script>
+<%= render "layouts/footer2" %>

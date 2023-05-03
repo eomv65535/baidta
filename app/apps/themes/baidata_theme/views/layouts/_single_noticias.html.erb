@@ -1,0 +1,27 @@
+<div class="container intranet-top">    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="<%= cama_noticias_path %>"><%= t("noticias")%></a></li>
+            <li class="breadcrumb-item active" aria-current="page"><%= @post.the_title %></li>
+        </ol>
+    </nav>
+    <div class="titulo"><h2><%= t("noticias")%></h2>
+        <p>&nbsp;</p>
+    </div>  
+    <div class="tab-content">                                     
+        <div class="card">
+            <div class="card-content">                    
+                <div class="card-body">
+                    <h2><%= @post.the_title %></h2>  
+                    <hr>
+                    <div> 
+                        <img src="<%= @post.the_thumb_url%>">                                                        
+                    </div>                        
+                    <hr>
+                    <p><%= raw @post.the_content %></p>
+                    <p class="pevt"><i class="fa fa-calendar"></i> <%= I18n.l(Date.parse(@post.published_at.to_s ), locale: I18n.locale, format: :long) %></p>                     
+                </div>                       
+            </div>
+        </div>
+    </div>                    
+</div>                    

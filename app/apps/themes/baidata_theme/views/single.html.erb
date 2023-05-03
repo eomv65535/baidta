@@ -1,0 +1,40 @@
+<%= render "/layouts/header2_index"%>
+ <%=
+    @user=current_user
+    @esta_regis=false
+    case @post_type.slug
+        when "events"   
+            if @user.present? && current_site.inscritos.deventos.deunidslug(@post.id).decorreo(@user.email).present?
+                @esta_regis=true
+            elsif @user.present? && @user.dni.present? && current_site.inscritos.deventos.deunidslug(@post.id).dedni(@user.dni).present?
+                @esta_regis=true      
+            end      
+            nobdta=""
+            case @post.get_field("evento-baidata")
+                when "1"
+                    nobdta="_alterno_insc"
+                when "2"
+                    nobdta=""
+                when "3"
+                    nobdta="_alterno"
+            end
+            if(@post.get_field("es-evento-privado")=="1" && !@user.present?)
+                nobdta="_privado"
+            end    
+            render "/layouts/single_evts"+nobdta
+        when "noticias"
+            render "/layouts/single_noticias"   
+        when "equipos-de-trabajo"            
+            @muros = current_site.muros.porequipo(@post.id).paginate(:page => params[:page], :per_page => current_site.admin_per_page)            
+            render "/layouts/single_eqt"   
+        when "cursos"
+            if @user.present? && current_site.inscritos.decursos.deunidslug(@post.id).decorreo(@user.email).present?
+                @esta_regis=true
+            elsif @user.present? && @user.dni.present? && current_site.inscritos.decursos.deunidslug(@post.id).dedni(@user.dni).present?
+                @esta_regis=true 
+            end    
+            render "/layouts/single_cursos"   
+     end    
+     %>    
+ 
+ <%=  render "layouts/footer2" %>

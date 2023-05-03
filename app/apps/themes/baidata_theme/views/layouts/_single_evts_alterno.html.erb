@@ -1,0 +1,45 @@
+<div class="container intranet-top">    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="<%= cama_events_path %>"><%= t("eventis")%></a></li>
+            <li class="breadcrumb-item active" aria-current="page"><%= @post.the_title %></li>
+        </ol>
+    </nav>
+    <div class="titulo"><h2><%= t("eventis")%></h2>
+        <p>&nbsp;</p>
+    </div>  
+    <div class="tab-content">                                     
+        <div class="card">
+            <div class="card-content">                    
+                <div class="card-body">
+                    <h2><%= @post.the_title %></h2>  
+                    <hr>
+                    <div> 
+                        <img src="<%= @post.the_thumb_url%>">                                                        
+                    </div>                        
+                    <hr>
+                    <p><%= raw @post.the_content %></p>
+                    <p class="pevt"><i class="fa fa-calendar"></i> 
+                    <%= I18n.l(Date.parse(@post.get_field("inicio-evento")), locale: I18n.locale, format: :long) if @post.get_field('fin-evento').nil? %>
+                    <%= I18n.l(Date.parse(@post.get_field("inicio-evento")), locale: I18n.locale, format: :long) + ' - ' + I18n.l(Date.parse(@post.get_field("fin-evento")), locale: I18n.locale, format: :long) if !@post.get_field('fin-evento').nil? %>
+                    </p> 
+                    <p class="pevt"><i class="fa fa-map-marker"></i> <%= @post.get_field("ubicacion-evento") %></p>       
+                </div>
+         <%
+            @formulario_corto=0
+            if @post.get_field("tipo-de-registro")=="0"
+                @formulario_corto=1
+            end   
+         %>
+
+               
+            </div>
+        </div>
+    </div>                    
+</div>                    
+
+<script>
+$(document).ready(function() { 
+  $('body').addClass('intranet');
+});
+</script>

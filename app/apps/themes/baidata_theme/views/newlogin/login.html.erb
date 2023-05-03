@@ -1,0 +1,22 @@
+<%= render "/layouts/header2_index" %>
+        <%= render 'camaleon_cms/flash_messages' %>
+            <div class="fondo-form">
+                <div class="registration-form">
+                    <div class="titulo"><h3><%= I18n.t('login')%></h3></div>                                    
+                        <%= form_tag url_for(action: :save_login) do %>
+                            <div class="form-group">
+                                <%= text_field_tag :username, params[:username], placeholder: I18n.t('camaleon_cms.admin.table.e_mail'), class: 'form-control item' %>
+                            </div>
+                            <div class="form-group">
+                                <%= password_field_tag :password, nil, placeholder: I18n.t('password') ,class: 'form-control item' %>
+                            </div>
+                            <div class="form-group">                                               
+                                <%= submit_tag I18n.t('camaleon_cms.admin.button.enter') , class: 'btn btn-block create-account' %>                                               
+                            </div>
+                        <% end %>         
+                        <p class="text-right"><a href="<%= cama_nuevousuario_path %>"><%= t('nosocioregistro')%></a></p>                     
+                        <p class="text-right"><a href="<%= current_site.the_url %>#unete"><%= t('quierosersocio')%></a></p>                     
+                        <p class="text-right"><a href="<%= cama_forgot_path %>"><%= t('camaleon_cms.admin.login.forgot_your_password_int', default: 'Forgot Password') %></a</p> 
+                </div>
+            </div>
+<%= render "layouts/footer2" %>

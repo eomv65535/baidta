@@ -1,0 +1,88 @@
+
+  <div id="contenedor-general" class="container-fluid m-0 p-0 fondo">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="<%= cama_myprofile_path %>"><%= t("mi_area")%></a></li>
+                    <li class="breadcrumb-item"><a href="<%= cama_equipostrab_path%>"><%= t("equiposdetrabajo")%></a></li>                    
+                    <li class="breadcrumb-item active" aria-current="page"><%= @post.the_title%></li>
+                </ol>
+            </nav>
+        <div>
+        <div id="cabecera" class="container d-flex" style="background-image:url(<%= @post.get_field("image-top-equipo")%>);">
+                <div id="info" class="container-fluid">
+                    <div id="" class="container">
+                    <div id="info-grupo" class="d-flex">
+                        <img class="profile-image" src="<%= @post.the_thumb_url%>" />
+                        <div id="titulo-grupo" class="">
+                            <p id="titulo"><%= @post.the_title %></p>
+                            <p class="subtitulo">&nbsp;</p>
+                        </div>
+                        <div id="metricas" class="row">
+                            <div class="row d-flex">
+                                <div class="col d-flex flex-column justify-content-center align-items-center"><span class="numerogrande"><%= current_site.muros.porequipo(@post.id).count%></span><span class="subtitulo">POSTS</span></div>
+                                <div class="col d-flex flex-column justify-content-center align-items-center"><span class="numerogrande"><%= current_site.inscritos.deunidslug(@post.id).activo.count%></span><span class="subtitulo"><%= t("miembros").upcase%></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div id="contenedor-contenido" class="container">                
+                <div id="menu-container" class="tarjeta d-flex">
+                    <div id="menu" class="d-flex">
+                    <% if current_site.inscritos.deteams.deunidslug(@post.id).decorreo(current_user.email).present? && current_site.inscritos.deteams.deunidslug(@post.id).decorreo(current_user.email).activo.present?%>                                        
+                        <a class="item-menu active" href="<%= @post.the_url%>"><i class="fa fa-home" aria-hidden="true"></i> HOME</a>
+                        <a class="item-menu" href="<%= cama_url_to_fixed("cama_info_group_path", {w: @post.id})%>"><i class="fa fa-info" aria-hidden="true"></i> INFO</a>                       
+                    <% else %>                        
+                        <a class="item-menu active"><i class="fa fa-info" aria-hidden="true"></i> INFO</a>
+                    <% end%>    
+                    </div>
+                    <div id="accions-menu">
+                     <% if current_site.inscritos.deteams.deunidslug(@post.id).decorreo(current_user.email).present? && current_site.inscritos.deteams.deunidslug(@post.id).decorreo(current_user.email).activo.present?%>               
+                        
+                        <%= form_tag(plugins_custom_registro_salirteams_url, method: :post, id: "salirtea") do %>  
+                            <%= render partial: "camaleon_cms/flash_messages", locals:{ flash: (flash[:custom_registro] || {}).with_indifferent_access }%>
+                                <input type='hidden' name="idslug" value='<%= raw @post.id%>'>
+                                <input type='hidden' name="slug" value='equipos-de-trabajo'>                                                
+                                <button type="button" onclick="verifica_out()" class="action-secondary"><i class="fa fa-sign-out" aria-hidden="true"></i> <%= t("abandonar")%></button>                                                                                                                     
+                         <% end%>  
+                      <% elsif current_site.inscritos.deteams.deunidslug(@post.id).decorreo(current_user.email).present? && current_site.inscritos.deteams.deunidslug(@post.id).decorreo(current_user.email).pendiente.present?%>               
+                        <button class="action-secondary"><i class="fa fa-clock-o" aria-hidden="true"></i> <%= t("solicitador")%></button>
+                      <% else %>    
+                         <%= form_tag(plugins_custom_registro_pedirteams_url, method: :post, id: "pedirtea") do %>  
+                            <%= render partial: "camaleon_cms/flash_messages", locals:{ flash: (flash[:custom_registro] || {}).with_indifferent_access }%>
+                                <input type='hidden' name="idslug" value='<%= raw @post.id%>'>
+                                <input type='hidden' name="slug" value='equipos-de-trabajo'>                                                
+                                <button type="submit" class="action-primary"><i class="fa fa-sign-in" aria-hidden="true"></i> <%= t("solicitar")%></button>                                                                                                                     
+                         <% end%>                         
+                      <% end%>     
+                    </div>
+                </div>
+                <% if current_site.inscritos.deteams.deunidslug(@post.id).decorreo(current_user.email).present? && current_site.inscritos.deteams.deunidslug(@post.id).decorreo(current_user.email).activo.present? %> 
+                    <%= render partial: "layouts/detalle_muro" %>                
+                <% else %>                 
+                     <%= render partial: "layouts/detalle_info"%>             
+               <% end%>    
+        </div>
+    </div>
+</div>    
+<script type="text/javascript">
+   function verifica_out()
+    {
+        Swal.fire({
+            title: "<%= t('estasseguro')%>",
+            text: "<%= t("nopuederevertir")%>",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "<%= t('siborra')%>"
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $("#salirtea").submit()
+            }
+            })
+
+    }    
+</script>

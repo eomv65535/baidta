@@ -1,0 +1,222 @@
+<style>
+.secradar {
+        background: #000;
+    }
+    .puntito{    
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        opacity: 1;
+        position: absolute;        
+        z-index: 2;
+        background:yellow;
+        border: 3px solid #000000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .puntito_otro{    
+        width: 22px;
+        height: 22px;        
+        border: 3px solid #000000;
+        border-radius: 50%;
+        opacity: 1;    
+        position: absolute;        
+        text-decoration: none;
+        cursor: pointer;
+    
+    }
+    .container_radar{ 
+       display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .fondo_radar{
+        background: url('<%= raw current_theme.get_field("fondo-radar")%>');
+        background-repeat: no-repeat;
+        background-size: contain;
+        position:absolute;      
+       
+    }    
+    .fondo_borde_radar{
+        background: url('<%= raw current_theme.get_field("img-externa")%>');
+        background-repeat: no-repeat;
+        background-size: contain;
+        position:absolute;      
+    }      
+    input[type=range][orient=vertical]
+    {
+        writing-mode: bt-rl; /* IE */
+        -webkit-appearance: slider-vertical; /* Chromium */
+        width: 20px;
+        height: 400px;
+        padding: 0 60px;
+        transform: rotate(-180deg);
+    }
+    .textico{
+       text-transform: uppercase;
+        position: absolute;
+        color:#379393;
+        width: 5vw;
+        text-align: center;
+        font-size: 16px;
+    }
+    .aiz{
+        top: 20%;
+        left: 5%;
+    }
+    .ade{
+        top: 20%;
+        right: 5%;
+    }
+    .biz{
+        bottom: 20%;
+        left: 5%;
+    }
+    .bde{
+        bottom: 20%;
+        right: 5%;
+    }
+    @-webkit-keyframes rotating {
+    from{
+        -webkit-transform: rotate(15deg);
+    }
+    to{
+        -webkit-transform: rotate(0deg);
+    }
+}
+
+.rotarlo {
+    -webkit-animation: rotating 0.5s linear;
+}
+.ancho{
+    width: 27vw;
+    height: 27vw;
+    padding: 0px;
+}
+.contenedor{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35vw;
+}
+.fondo_pto{        
+    border-radius: 20px;    
+    position: absolute;
+    margin-left:-17px;
+    margin-top:-15px;
+    padding: 5px;
+}
+.fondo_pto label{
+    text-align: center;    
+    letter-spacing: 0.45px;
+    color: #E6E6E6;
+    opacity: 1;
+    padding-left: 30px;
+    padding-right: 10px;
+    margin:0px;
+    display:none;
+}
+@media screen and (max-width:468px) {
+    .secradar {
+        margin-top: -25px;
+        padding-top: 8%;
+    }
+    .contenedor{
+        height: 85vw;
+    }
+    .ancho{
+        width: 85vw;
+        height: 85vw;          
+    }
+    .caja1{
+        width: 75vw;
+        height: 50vw;    
+    }
+    .textico{
+        width: 26vw;
+        font-size: 14px;
+    }
+     .aiz{
+        top: 0;
+        left: 1%;
+    }
+    .ade{
+        top: 0;
+        right: -2%;
+    }
+    .biz{
+        bottom: 0;
+        left: 2%;
+    }
+    .bde{
+        bottom: 0;
+        right: -2%;
+    }
+}
+</style>
+<p>&nbsp;</p>
+
+<div class="group-input-fields-content">
+    <div class="col-xs-12">
+        <div class="col-md-2 ">&nbsp;</div>
+        <div class="col-md-8">
+            <div class="form-group ">
+                <label class="col-md-3 control-label">Posición en X</label>
+                <input id="pto_pos_left" name="<%= field_name %>[<%= field.slug %>][values][][pto_pos_left]" class="col-md-9 valid" type="range"  onchange="mover()" aria-invalid="false" value="<%= JSON(@post.get_field("ubica_pto"))["pto_pos_left"] if @post.get_field("ubica_pto").present?%>">
+                
+            </div> 
+        </div>
+        <div class="col-md-2 ">&nbsp;</div>
+    </div>
+    <p>&nbsp;</p>
+    <div class="col-xs-12">    
+        <div class="col-md-2">
+        <div class="form-group ">
+                <label class="control-label col-md-12 ">Posición en Y</label>            
+                <input id="pto_pos_top" name="<%= field_name %>[<%= field.slug %>][values][][pto_pos_top]" class="col-md-12 valid" type="range"  onchange="mover()" orient="vertical" aria-invalid="false" value="<%= JSON(@post.get_field("ubica_pto"))["pto_pos_top"] if @post.get_field("ubica_pto").present?%>">
+            </div> 
+        </div>
+        <div class="col-md-8 ">
+        <section class="secradar">
+            <div class="container_radar contenedor">
+                    <span class="textico aiz">Movilidad</span>
+                    <span class="textico ade">Smart city</span>
+                    <span class="textico biz">Automoción</span>
+                    <span class="textico bde">Otros sectores</span>
+                    
+                    <div class="fondo_radar ancho"></div>
+                    <div class="fondo_borde_radar rotarlo ancho"></div>  
+            
+                 <div id="elpuntinto" class="fondo_pto" >
+                    <a class="puntito"></a>
+                 </div>
+                 <% current_site.the_posts("radar-baidata").decorate.each_with_index do |cadapto,index|                      
+                                tootip=cadapto.title.translate('es')                
+                                parse= JSON(cadapto.get_field("ubica_punto"))
+                                top= parse["pto_pos_top"] 
+                                left= parse["pto_pos_left"]
+                                color="#5B05CB" if (cadapto.get_field("tipo-de-iniciativa")=="1")   
+                                color="#82378E" if (cadapto.get_field("tipo-de-iniciativa")=="2")   
+                    %>
+                    <div class="fondo_pto" id="fondopto_<%= index%>" style="left: <%= left%>%; top: <%= top%>%;">
+                        <a onmouseover="muestra_tooltip('<%= color%>',<%= index%>)" onmouseout="oculta_tooltip(<%= index%>)" id="punto_<%= index%>" class="puntito_otro" style="background: <%= color%>;"></a> <label><%= tootip%></label>
+                    </div>
+                    
+                <% end%>
+            </div>
+            </section>
+        </div>
+        <div class="col-md-2 ">&nbsp;</div>
+    </div>
+</div>
+<script>
+    
+        $("#elpuntinto").css('left', $("#pto_pos_left").val() + '%');
+        $("#elpuntinto").css('top', $("#pto_pos_top").val() + '%'); 
+  
+    function mover(){
+        $("#elpuntinto").css('left', $("#pto_pos_left").val() + '%');
+        $("#elpuntinto").css('top', $("#pto_pos_top").val() + '%');    
+    }
+</script>

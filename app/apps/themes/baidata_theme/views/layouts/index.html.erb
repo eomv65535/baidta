@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>    
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />    
+    <meta name="google-site-verification" content="Ouo3pRHAkov0-Ni02oTWoxNk_0r4qLtPTCFKqzJ8ruA" />
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Bai Jamjuree' rel='stylesheet'>
+    <%= stylesheet_link_tag theme_asset_path("css/main.css") %>    
+    <script>
+        var root_url = '<%= cama_root_url(locale: nil) %>';
+        var root_admin_url = '<%= cama_admin_url(locale: nil) %>';
+        var NO_IMAGE_URL = '<%= asset_url("camaleon_cms/image-not-found.png") %>';
+        var CURRENT_LOCALE = '<%= current_locale %>';
+        var ADMIN_TRANSLATIONS = <%= raw current_site.get_languages.to_json %>;
+        var tinymce_global_settings = {language_url: "<%= asset_path("camaleon_cms/admin/tinymce/langs/#{current_locale}.js") %>", custom_css: [], custom_toolbar: [], post_render: [], init: [], setups: [], settings: []};
+        var I18n_data = <%= I18n.backend.respond_to?(:translations) ? I18n.backend.send(:translations)[current_locale.to_sym][:camaleon_cms][:admin][:js].to_json.html_safe : !!(I18n.backend.backends[1] && I18n.backend.backends[1].backends[1]) ? I18n.backend.backends[1].backends[1].send(:translations)[current_locale.to_sym][:camaleon_cms][:admin][:js].to_json.html_safe : "{}" rescue "{}" %>        
+    </script>
+    <%= javascript_include_tag theme_asset_path("js/main.js") %>
+    <%= raw the_head %>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-53D9B6802F"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-53D9B6802F');
+    </script>
+    <!-- Chatra {literal} -->
+<script>
+    (function(d, w, c) {
+        w.ChatraID = 'xRW4Fxnq8cywon3nQ';
+        var s = d.createElement('script');
+        w[c] = w[c] || function() {
+            (w[c].q = w[c].q || []).push(arguments);
+        };
+        s.async = true;
+        s.src = 'https://call.chatra.io/chatra.js';
+        if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+</script>
+<!-- /Chatra {/literal} -->
+</head>
+<body>    
+    <%= yield %>   
+</body>
+</html>

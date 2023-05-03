@@ -1,0 +1,32 @@
+<div class="container intranet-top">            
+    <div class="titulo"><h2><%= t("noticias")%></h2> <i class="fa fa-newspaper-o" aria-hidden="true"></i><p> <%= t("subtnoticias")%></p> </div>      
+    <div class="tab-content">  
+        <% current_site.the_posts("noticias").decorate.sort_by { |h| h[:published_at]}.reverse.each_with_index do |noticia,index| 
+        
+        %>        
+            <div class=" col-xs-12 col-lg-6">                    
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">                         
+                            <div class="wpem-from-date">
+                                <div class="wpem-date"><%= I18n.l(Date.parse(noticia.published_at.to_s), locale: I18n.locale, format: "%d") %></div>
+                                <div class="wpem-month"><%= I18n.l(Date.parse(noticia.published_at.to_s), locale: I18n.locale, format: "%b") %></div>
+                            </div>
+                            <a href="<%= noticia.the_url %>">                                     
+                                <img src="<%= noticia.the_thumb_url%>" class="img-responsive" style="height:250px!important">
+                                <h3 class="title-evt"><%= noticia.the_title%></h3>               
+                            </a>    
+                            <p><%= noticia.the_excerpt %></p>
+                            
+                            <div class="etiquetas" style="text-align: center;">
+                                <a class="shortcode_lightbox" href="<%= noticia.the_url %>"> <%= I18n.t :continualeyendo %></a>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>                    
+            </div>
+        <%      
+            end%>            
+    </div>
+</div>

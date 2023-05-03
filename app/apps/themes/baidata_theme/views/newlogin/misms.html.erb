@@ -1,0 +1,138 @@
+<%= render "/layouts/header2_index" %>
+
+<%= render 'camaleon_cms/flash_messages' %>   
+<div class="container intranet-top">    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="<%= cama_myprofile_path %>"><%= t("mi_area")%></a></li>
+            <li class="breadcrumb-item active" aria-current="page"><%= I18n.t('mismensajes')%></li>
+        </ol>
+    </nav>
+    <div class="titulo"><h2><%= I18n.t('mismensajes')%></h2>
+        <i class="fa fa-comment" aria-hidden="true"></i><p>&nbsp;</p>
+    </div>      
+    </div>      
+ <div id="contenedor-general" class="container-fluid m-0 p-0 fondo subleo" style="margin-top: -100px !important;">           
+            <div id="contenedor-contenido" class="container">                
+                <% if current_site.rooms.tengochat(current_user.id).count == 0 %>            
+                    <h4 class="d-flex subtitulo align-items-center justify-content-center p-3"> <%= t("nohaysms")%></h4>
+                <% else %>    
+                   
+                    <div class="columnas iverted">                
+                        <div class="columna-side mensajes">
+
+                            <div class="tarjeta">
+                                <div class="menu-badges d-flex">
+                                    <p class="side-title"><i class="fa fa-commenting" aria-hidden="true"></i> <%= t("mismensajes")%></p>
+                                </div>
+                                <hr>
+                                 <%= turbo_stream_from "rooms" %>
+                                <div id="rooms">
+                                    <%= render @rooms%>
+                                    
+                                </div>                                 
+                            </div>
+                        </div>
+                        <div class="columna-main" id="contenidochat">                            
+                            <div class="tarjeta side">
+                                
+                                <% if @single_room %>     
+                                <div class="miembro d-flex align-items-center">                                       
+                                    <div id="profile" style="background-image:url(<%= @aquienenvia.decorate.the_avatar%>); margin-right:2em;"></div>
+                                        <div class="">
+                                            <p><%= @aquienenvia.first_name%> <%= @aquienenvia.last_name%></p>
+                                            <p class="subtitulo">&nbsp;</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <hr>
+                                    <div id="publicar" class="d-flex">
+                                        <div class="modal-body">
+                                            <div class="msg-body">
+                                                
+                                                <ul id="messages_<%= @single_room.id%>">
+                                                 <%= render @messages %>                                                  
+                                                </ul>
+                                            </div>   
+                                        </div>   
+                                    </div>                                                                                           
+                                    <hr>
+                                    <%= render 'layouts/new_message_form' %>         
+                                </div>                                                                                                                       
+                                <% else %>       
+                                <div class="d-flex subtitulo align-items-center justify-content-center p-3">                         
+                                    <p><%= t("seleccionasms")%></p>
+                                 </div>   
+                                <% end %>                                    
+                                
+                            </div>                        
+                        </div>
+                    </div>
+               <% end%>
+            </div>
+        </div>
+<script type="application/javascript">
+    
+    $(document).ready(function(){
+        
+        revisa_activo();
+        <% if @single_room %>   
+          var  tiempo_1=  setInterval(carga_chat, 5000, <%= @single_room.id%>);   
+          var  tiempo_2=setInterval(carga_mitarjeta, 60000, <%= @single_room.id%>);   
+        <% end %>         
+         $('#envia_sms').on('submit', function(e){
+                e.preventDefault(); // don't submit multiple times    
+                this.submit(); // use the native submit method of the form element                
+                document.getElementById('body').value= ""
+                <% if @single_room %>                   
+                    carga_chat(<%= @single_room.id%>)    
+                    
+                <% end %>             
+         });
+    });
+     function carga_mitarjeta()
+    {    
+        
+        $.ajax({
+                    type: 'GET',
+                    url: "/carga_mitarjeta_ajax",
+                    <% if @single_room %>  
+                        data: {room_id:<%= @single_room.id%>},                   
+                   <% end%> 
+                    success: function (response) {                        
+                       var res = $.parseJSON(response);
+                        $("#mitarjeta").html(res.contenido)            
+                    },                
+                    dataType: 'html',
+                    async: false
+                });
+    } 
+    function revisa_activo(){
+        $('#rooms > div').each(function () {
+            if($(this).hasClass("miembro-activo"))
+                $(this).children('a').click()
+         });
+       
+
+    }
+
+   function carga_chat(room_id)
+    {        
+        $.ajax({
+                    type: 'GET',
+                    url: "/carga_chat_ajax",
+                    data: {room_id: room_id},                   
+                    success: function (response) {
+                        
+                        var res = $.parseJSON(response);
+                        $("#messages_" + room_id).html(res.contenido)
+                        //$("#id_chati_"+quien_envia).addClass("miembro-activo");             
+                        //$("#id_chati_"+quien_envia+" .badge").html("0");             
+                    },                
+                    dataType: 'html',
+                    async: false
+                });
+    }
+
+</script>
+<%= render "layouts/footer2" %>

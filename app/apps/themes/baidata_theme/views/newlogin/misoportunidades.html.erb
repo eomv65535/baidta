@@ -1,0 +1,82 @@
+<%= render "/layouts/header2_index" %>
+<style>
+.panel-heading, .media_browser_list, .ajax-upload-dragdrop span{
+    display: none!important
+}
+.modal-dialog{
+    width: 30%!important;
+}
+.media_file_info_col{
+    width: 100%!important;
+}
+#cama_media_upload{
+    margin-top:30px
+}
+</style>
+<%= render 'camaleon_cms/flash_messages' %>   
+<div class="container intranet-top">    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="<%= cama_myprofile_path %>"><%= t("mi_area")%></a></li>
+            <li class="breadcrumb-item active" aria-current="page"><%= t('bonos')%></li>
+        </ol>
+    </nav>
+    <div class="titulo"><h2><%= t("bonos")%></h2>
+        <i class="fa fa-diamond" aria-hidden="true"></i><p>&nbsp;</p>
+    </div>
+  
+    <div class="container">                                   
+            <div id="work_teams">                 
+                <div class="table-responsive">   
+                         <% if current_site.oinscritos.decorreo(current_user.email).size == 0%>
+                                <!--h4><%= t('aunnohassolop')%></h4-->
+                        <%  else%>
+                        <table class="table tabla_baidata"> 
+                         <thead>
+                                <th align="center"><%= t('propuesta')%></th>                                                                              
+                                <th align="center"><%= t('responsable')%></th>                                                                              
+                                <th align="center"><%= t('fecha')%></th>        
+                                <th align="center"><%= t('camaleon_cms.admin.table.status') %></th>        
+                            </thead>                                                                                                                         
+                            <tbody>
+                            <%   
+                            
+                            current_site.oinscritos.decorreo(current_user.email).each_with_index do |oportunidad,index|    %>
+                                    <tr>                                       
+                                         <td style="width: 60%;"><strong><%=oportunidad.tituloproy%></strong></td>
+                                         <td><%=oportunidad.responsable%></td>
+                                         <td><%= oportunidad.created_at.to_date.strftime('%d/%m/%Y')%></td>
+                                        <td>
+                                        <% if oportunidad.estatus == "pendiente"%>                                       
+                                            <span class="btn btn-nuevo en_listaespera" style="float: left;"><%= t("solicitador")%> <i class="fa fa-clock-o" style="font-size: 12px;float:none;"></i> </span>
+                                        <%  elsif oportunidad.estatus=="rechazado"%>
+                                            <span class="btn btn-nuevo registrarse" style="float: left;"><%= t("rechazado")%> <i class="fa fa-times" style="font-size: 12px;float:none;"></i></span>                                        
+                                        <%  elsif oportunidad.estatus=="aprobado"%>
+                                            <span class="btn btn-nuevo registrado" style="float: left;"><%= t("aprobado")%> <i class="fa fa-check" style="font-size: 12px;float:none;"></i></span>
+                                        <% end%>
+                                        </td>
+                                    </tr>     
+                             <% end%>                                                                                                              
+                            </tbody>
+                        </table>      
+                          <% end%>  
+                          <br>
+                          <p align="center">      
+                           <a href="<%= cama_inscoport_path %>" class="btn_oportunidades"><%= I18n.t :solicitar %> <%= t("bonos")%></a>  </p>     
+                </div>  
+
+            </div>                     
+    </div>
+</div>
+
+
+<script type="application/javascript">
+    jQuery(function ($) { 
+        init_profile_form(); 
+        <%= raw "$('#wpt').click();" if flash[:work_teams]==1 %>            
+    });
+    
+</script>
+
+
+<%= render "layouts/footer2" %>

@@ -1,0 +1,32 @@
+
+  <%    
+    clase =""
+    if @single_room &&  room.id == @single_room.id
+        clase = "miembro-activo"
+    end    
+    cual_usu= room.participant_dos if room.participant_uno == current_user.id
+    cual_usu= room.participant_uno if room.participant_dos == current_user.id
+    @user = current_site.users.find(cual_usu)
+    @nombre = @user.first_name + " " + @user.last_name
+    mensajes = current_site.messages.deroom(room.id)
+    cuantos =  mensajes.deusr(cual_usu).noleido.count
+    ultima = Time.now
+    ultima = mensajes.last.created_at if cuantos > 0
+
+  %>
+                        <div class="side-content <%= clase%>" id="id_chati_<%= room.id %>">
+                            <a href="<%= cama_url_to_fixed("cama_misms_path", {id: room.id})%>" class="hastaluego"> 
+                                <div class="miembro d-flex align-items-center">
+                                    <div id="profile" class="" style="background-image:url(<%= @user.decorate.the_avatar%>); margin-right:2em;"></div>
+                                    <div id="mensaje" class="d-flex">
+                                        <div class="">
+                                            <p><i class="fa fa-comment"></i> <span style="font-size: 11px;"> <%= @nombre%> </span></p>
+                                            <p class="subtitulo"><%= distance_of_time_in_words(ultima, Time.now)%></p>
+                                        </div>
+                                        <span class="badge"><%= cuantos%></span>
+                                    </div>
+                                </div>
+                            </a>                                 
+                        </div>
+  
+  

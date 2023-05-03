@@ -1,0 +1,12 @@
+<%
+    if current_user.id ==  message.user_id    
+        cual = "repaly"         
+    else    
+        cual = "sender" 
+    end
+%>
+
+<li class="<%= cual%>">
+  <p><%= message.body%></p>
+  <span class="time"><%=  distance_of_time_in_words(message.created_at, Time.now)%></span>
+</li>

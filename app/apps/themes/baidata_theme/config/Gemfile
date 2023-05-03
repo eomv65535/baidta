@@ -1,0 +1,16 @@
+gem 'custom_registro', path: 'apps/plugins/custom_registro'
+gem 'exportar_usuario', path: 'apps/plugins/exportar_usuario'
+gem 'cama_image_lightbox'
+gem 'redsys-rails'
+gem 'createsend'
+gem 'icalendar'
+gem 'whenever', require: false
+gem 'camaleon_post_order', github: 'owen2345/camaleon-post-order-plugin'
+gem 'urlcrypt', '~> 0.1.1'
+gem 'evaluacione', path: 'apps/plugins/evaluacione'
+gem 'microem', path: 'apps/plugins/microem'
+gem 'carrierwave'
+gem 'link_thumbnailer'
+gem 'fullcalendar-rails'
+gem 'momentjs-rails'
+gem "camaleon_post_clone"

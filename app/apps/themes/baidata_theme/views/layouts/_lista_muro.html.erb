@@ -1,0 +1,139 @@
+
+                    <%   @muros.each_with_index do |muro,index|    
+                            usuario = current_site.users.find_by_id(muro.user_id)
+                            megusta_muro = current_site.megustas.porusr(current_user.id).pormuro(muro.id)
+                            laclasemegusta = ''
+                            
+                            if megusta_muro.present?
+                                laclasemegusta = 'acciones-publicacion-activo'
+                                valormg = megusta_muro[0].id
+                            else
+                                laclasemegusta = ''    
+                                valormg = 0
+                            end    
+                             %>
+                            <div class="tarjeta">
+                                <div class="menu-badges d-flex">
+                                    <div id="profile" style="background-image:url(<%= usuario.decorate.the_avatar %>); margin-right:2em;"></div>
+                                    <div class="flex-column">
+                                        <% if current_user.id != muro.user_id%>
+                                            <p><a href="<%= cama_url_to_fixed("cama_member_group_path", {w: muro.user_id, g: @post.id})%>"><%= usuario.first_name %> <%= usuario.last_name %></a></p>
+                                         <% else %>   
+                                            <p><%= usuario.first_name %> <%= usuario.last_name %></p>                                          
+                                          <% end %>                                            
+                                        <p class="subtitulo"><%= distance_of_time_in_words(muro.created_at, Time.now) %></p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div id="publicar" class="publicacion">
+                                    
+                                    
+                                    <% if muro.texto.present?%>
+                                        <p id="texto-publicacion"><%= muro.texto%></p>                                 
+                                    <% end %>
+                                    <% if muro.nombre_img_doc.present?%>
+                                        <img src="media/1/workteams/<%= muro.nombre_img_doc%>" />
+                                    <% end %>
+                                    <% if muro.enlace?
+                                        require 'link_thumbnailer'
+                                        object = LinkThumbnailer.generate(muro.enlace, redirect_limit: 5)   
+                                         
+                                        if object.present?                                                             
+                                        %>
+                                            <a href="<%= muro.enlace%>" target="_blank">
+                                                 <% if object.images.present? %>
+                                                    <img src="<%= object.images.first.src.to_s%>" />
+                                                <% end %>    
+                                                <p id="texto-publicacion"><%= object.description%></p>  
+                                            </a>
+                                        <% else %>
+                                            <a href="<%= muro.enlace%>" target="_blank">
+                                                <% if object.images.first.src.present? %>
+                                                    <img src="<%= object.images.first.src.to_s%>" />
+                                                <% end %>    
+                                                <p id="texto-publicacion"><%= object.description%></p>  
+                                            </a>
+                                        <% end %>
+                                    <% end %>
+                                        
+                                </div>
+                            <hr>
+                            <div id="acciones-publicaion">
+                                <a id="corazon_<%= muro.id%>" onclick="megusta(<%= muro.id%>)"><i class="fa fa-heart <%= laclasemegusta%>" aria-hidden="true"></i> <span id="nummg_<%= muro.id%>"><%= current_site.megustas.pormuro(muro.id).count%></span></a>
+                                <a onclick="muestra_comen(<%= muro.id%>)"><i class="fa fa-comments" aria-hidden="true"></i> <span id="numcm_<%= muro.id%>"><%= current_site.comentarios.pormuro(muro.id).count%></span></a>                                
+                            </div>
+                            <hr>
+                            <div class="comentarios" id="comentars_<%= muro.id%>">
+                            </div>                            
+                       </div>     
+                    <% end %>
+<%= raw cama_do_pagination(@muros) %>                   
+<script type="text/javascript">
+    function muestra_comen(muro_id){
+        
+    if ($("#comentars_"+muro_id).css("display") == "none")
+            pedir_comentarios(muro_id);        
+        else    
+            $("#comentars_"+muro_id).hide();
+    }
+    
+    function megusta(muro_id)
+    {
+        $.ajax({
+                    type: 'GET',
+                    url: "/megusta_ajax",
+                    data: {muro_id: muro_id},                    
+                    success: function (response) {        
+                        var res = $.parseJSON(response);
+                                                                     
+                        if (parseInt(res.id,10) >0)
+                            $("#corazon_"+res.muro_id+" i").addClass("acciones-publicacion-activo")
+                        else    
+                            $("#corazon_"+res.muro_id+" i").removeClass("acciones-publicacion-activo")                            
+                        
+                         $("#nummg_"+res.muro_id).html(res.numero)   
+                            
+                    },                
+                    dataType: 'html',
+                    async: false
+                });                
+    }
+
+    function crear_comen(muro_id)
+    {
+        $.ajax({
+                    type: 'GET',
+                    url: "/crea_come_ajax",
+                    data: {muro_id: muro_id, texto: $("#texto_comen_"+muro_id).val(), idiomaz: $("#idiomaz").val()},
+                    beforeSend: function(data){
+                        $("#comentars_"+muro_id).html('<p align="center"><img src="/media/1/spinner.gif"></p>')                    
+                    },
+                    success: function (res) {                       
+                        pedir_comentarios(muro_id)
+                    },                
+                    dataType: 'html',
+                    async: false
+                });
+    }
+
+    function pedir_comentarios(muro_id)
+    {
+        $.ajax({
+                    type: 'GET',
+                    url: "/lista_come_ajax",
+                    data: {muro_id: muro_id, idiomaz: $("#idiomaz").val()},
+                    beforeSend: function(data){
+                        $("#comentars_"+muro_id).html('<p align="center"><img src="/media/1/spinner.gif"></p>')                    
+                    },
+                    success: function (response) {
+                        
+                        var res = $.parseJSON(response);
+                        $("#comentars_"+muro_id).html(res.contenido)
+                        $("#comentars_"+muro_id).css("display","flex");
+                        $("#numcm_"+muro_id).html(res.numero)   
+                    },                
+                    dataType: 'html',
+                    async: false
+                });
+    }
+</script>

@@ -1,0 +1,251 @@
+<%= render "/layouts/header2_index" %>
+<%= render 'camaleon_cms/flash_messages' %>   
+<div class="container intranet-top">    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="<%= cama_myprofile_path %>"><%= t("mi_area")%></a></li>
+            <li class="breadcrumb-item active" aria-current="page"><%= I18n.t('encuesta')%></li>
+        </ol>
+    </nav>
+    <div class="titulo"><h2><%= I18n.t('encuesta')%></h2>
+        <i class="fa fa-list" aria-hidden="true"></i><p>&nbsp;</p>
+    </div>  
+    <div class="container">                           
+                <p><%= I18n.t('encuesta_subt1')%></p>                
+                <p><strong><%= I18n.t('encuesta_subt2')%></strong></p>
+                <br>
+                <%= form_tag url_for(action: :save_valora_curso) do %>
+                <input type="hidden" name="id_inscrito" id="id_inscrito" value="<%= @id_inscrito %>">
+                <input type="hidden" name="id_curso" id="id_curso" value="<%= @id_curso %>">
+                <div class="registration-form2">                                         
+                    <div class="form-group"><label>1. Datos del curso</label></div>                    
+                        <table class="table">
+                            <tr><td class="active"> Nombre del curso</td><td><%= raw @elcurso.title.translate(I18n.locale.to_s)%></td></tr>
+                            <tr><td class="active"> Fecha</td><td><%= raw I18n.l(Date.parse(@elcurso.get_field("fecha-curso")), locale: :es, format: :long)%></td></tr>
+                            <tr><td class="active"> Lugar</td><td><%= raw @elcurso.get_field('ubicacion-curso')%></td></tr>
+                        </table>                    
+                    <div class="form-group"><label>2. Valore las instalaciones en las que se ha impartido la formación</label><br></div>
+                    <div>
+                       <label class="checkbox-inline">
+                            <input class="form-check-input" type="radio" name="[quiz][valor_instalaciones]" id="viradio1" value="Muy buenas" required> Muy buenas
+                        </label>                        
+                        <label class="checkbox-inline">
+                            <input class="form-check-input" type="radio" name="[quiz][valor_instalaciones]" id="viradio2" value="Buenas" required> Buenas
+                        </label>                        
+                        <label class="checkbox-inline">
+                            <input class="form-check-input" type="radio" name="[quiz][valor_instalaciones]" id="viradio3" value="No tan buenas" required> No tan buenas
+                        </label>                        
+                        <label class="checkbox-inline">
+                            <input class="form-check-input" type="radio" name="[quiz][valor_instalaciones]" id="viradio4" value="Nada buenas" required> Nada buenas
+                        </label>                        
+                        <label class="checkbox-inline">
+                            <input class="form-check-input" type="radio" name="[quiz][valor_instalaciones]" id="viradio5" value="N/A" required> N/A
+                        </label>                        
+                     </div>   
+                     <br>
+                     <div class="form-group"><label>3. Valoración del profesor:</label><br>   </div>
+                     <div class="form-group">
+                        <label class="col-xs-3 control-label">a. Conocimientos teóricos</label>
+                        <div class="col-xs-9">
+                            <div class="col-xs-2">
+                                <select class="form-control" name="[quiz][conocimiento_teorico]">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>   
+                        </div>   
+                     </div>   
+                     <br>
+                     <div class="form-group">
+                        <label class="col-xs-3 control-label">b. Conocimientos prácticos</label>
+                        <div class="col-xs-9">
+                            <div class="col-xs-2">
+                                <select class="form-control" name="[quiz][conocimiento_practico]">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>   
+                        </div>   
+                     </div>   
+                     <br>
+                     <div class="form-group">
+                        <label class="col-xs-3 control-label">c. Exposición teórica</label>
+                        <div class="col-xs-9">
+                            <div class="col-xs-2">
+                                <select class="form-control" name="[quiz][exposicion_teorica]">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>   
+                        </div>   
+                     </div>   
+                      <br>
+                     <div class="form-group">
+                        <label class="col-xs-3 control-label">d. Exposición práctica</label>
+                        <div class="col-xs-9">
+                            <div class="col-xs-2">
+                                <select class="form-control" name="[quiz][exposicion_practica]">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>   
+                        </div>   
+                     </div>    
+                      <br>
+                      <br>
+                     <div class="form-group"><label>4. Utilidad de los contenidos del curso:</label><br>   </div>
+                     <div class="form-group">
+                        <label class="col-xs-3 control-label">a. Contenidos teóricos</label>
+                        <div class="col-xs-9">
+                            <div class="col-xs-2">
+                                <select class="form-control" name="[quiz][contenidos_teorico]">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>   
+                        </div>   
+                     </div>   
+                     <br>
+                     <div class="form-group">
+                        <label class="col-xs-3 control-label">b. Ejercicios y ejemplos</label>
+                        <div class="col-xs-9">
+                            <div class="col-xs-2">
+                                <select class="form-control" name="[quiz][ejercicios_ejemplos]">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>   
+                        </div>   
+                     </div>  
+                     <br><br>
+                    <div class="form-group"><label>5. Valore la documentación del curso</label></div>
+                    <div>
+                       <label class="checkbox-inline">
+                            <input class="form-check-input" type="radio" name="[quiz][valor_documentacion]" id="vdradio1" value="Muy buena" required> Muy buena
+                        </label>                        
+                        <label class="checkbox-inline">
+                            <input class="form-check-input" type="radio" name="[quiz][valor_documentacion]" id="vdradio2" value="Buena" required> Buena
+                        </label>                        
+                        <label class="checkbox-inline">
+                            <input class="form-check-input" type="radio" name="[quiz][valor_documentacion]" id="vdradio3" value="No tan buena" required> No tan buena
+                        </label>
+                        
+                        <label class="checkbox-inline">
+                            <input class="form-check-input" type="radio" name="[quiz][valor_documentacion]" id="vdradio4" value="Nada buena" required> Nada buena
+                        </label>                        
+                     </div>   
+                     <br>
+                    <div class="form-group"><label>6. En general ¿Cual es su valoración del curso?</label></div>
+                    <div>
+                       <label class="checkbox-inline">
+                            <input class="form-check-input" type="radio" name="[quiz][valor_curso]" id="vcradio1" value="Muy buena" required> Muy buena
+                        </label>                        
+                        <label class="checkbox-inline">
+                            <input class="form-check-input" type="radio" name="[quiz][valor_curso]" id="vcradio2" value="Buena" required> Buena
+                        </label>                        
+                        <label class="checkbox-inline">
+                            <input class="form-check-input" type="radio" name="[quiz][valor_curso]" id="vcradio3" value="No tan buena" required> No tan buena
+                        </label>
+                        
+                        <label class="checkbox-inline">
+                            <input class="form-check-input" type="radio" name="[quiz][valor_curso]" id="vcradio4" value="Nada buena" required> Nada buena
+                        </label>                        
+                     </div>   
+                     <br>
+                    <div class="form-group"><label>7. ¿Ha cubierto el curso sus expectativas?</label></div>
+                    <div>
+                       <label class="checkbox-inline">
+                            <input class="form-check-input" type="radio" name="[quiz][expectat]" id="radio1" value="Completamente" required> Completamente
+                        </label>                        
+                        <label class="checkbox-inline">
+                            <input class="form-check-input" type="radio" name="[quiz][expectat]" id="radio2" value="Bastante" required> Bastante
+                        </label>                        
+                        <label class="checkbox-inline">
+                            <input class="form-check-input" type="radio" name="[quiz][expectat]" id="radio3" value="Un poco" required> Un poco
+                        </label>
+                        
+                        <label class="checkbox-inline">
+                            <input class="form-check-input" type="radio" name="[quiz][expectat]" id="radio4" value="Para nada" required> Para nada
+                        </label>                        
+                     </div>   
+                     <br>
+                    <div class="form-group"><label>Aspectos que cambiaría del curso</label>
+                        <textarea class="form-control" name="[quiz][aspecto_cambia_curso]" rows="5"></textarea>
+                    </div>
+                    <div class="form-group"><label>Aspectos que destacaría  del curso</label>
+                        <textarea class="form-control" name="[quiz][aspecto_destacaria_curso]" rows="5"></textarea>
+                    </div>
+                    <div class="form-group"><label>¿Tiene intención de acometer un proceso/metodología/herramienta relacionado con el curso a corto/medio plazo?</label>
+                        <textarea class="form-control" name="[quiz][acometer_proceso]" rows="5"></textarea>
+                    </div>
+                    <div class="form-group"><label>¿Se siente capacitado para acometer en solitario dicho proceso/metodología/herramienta relacionado con el curso?</label>
+                        <textarea class="form-control" name="[quiz][capacitado_acometer]" rows="5"></textarea>
+                    </div>
+                    <div class="form-group"><label>Otras consideraciones que desee indicarnos</label>
+                        <textarea class="form-control" name="[quiz][otras_considera]" rows="5"></textarea>
+                    </div>
+
+                    <div class="form-group">                                               
+                        <%= submit_tag I18n.t('camaleon_cms.admin.button.submit') , class: 'btn btn-block create-account' %>                                               
+                    </div>       
+                 </div>                             
+                <% end %>              
+                  
+    </div>
+</div>
+
+
+<script type="application/javascript">
+  
+</script>
+
+
+<%= render "layouts/footer2" %>

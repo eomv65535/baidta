@@ -1,0 +1,3 @@
+<div class="group-input-fields-content">
+    <%= select_tag "#{field_name}[#{field.slug}][values][]", options_for_select(options_empresas.sort_by { |h| h[:title] }.map{ |p| [p.title.translate('es'),p.id]}), class: "form-control  input-value #{"required" if field.options[:required].to_s.to_bool}" %>   
+</div>

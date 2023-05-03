@@ -1,0 +1,41 @@
+<div class="columnas">
+
+                    <div class="columna-main">                        
+                        <div class="tarjeta">
+                            <div class="menu-badges d-flex">
+                                <div id="profile" style="background-image:url(./images/user.jpg); margin-right:2em;"></div>
+                                <div class="flex-column">
+                                    <p>Joachim CLEMENS-STOLBRINK</p>
+                                    <p class="subtitulo">HACE 2 DÍAS</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div id="publicar" class="publicacion">
+                                <p id="texto-publicacion">El pasado 13 de octubre tuvo lugar en Bruselas la inauguración del Centro Europeo de Soporte a los Espacios de Datos (DSSC) y la asociación BAIDATA no pudo faltar.
+
+                                    La iniciativa ha sido puesta en marcha por un consorcio de 12 organizaciones líderes en el dominio de los espacios de datos en Europa entre las que se incluye la Asociación Internacional de Espacios de Datos (IDSA), de la que BAIDATA es su nodo en la Península Ibérica. Asimismo, entre los colaboradores de la iniciativa se encuentra la secretaría de la iniciativa peninsular, la asociación Innovalia.</p>
+                                <img src="./images/imagen1.jpg" />
+                            </div>
+                                
+                        </div>
+                    </div>
+                    
+                    <div class="columna-side">                        
+                        <div class="tarjeta side">
+                            <div class="menu-badges d-flex">
+                                <p class="side-title"><i class="fa fa-align-justify" aria-hidden="true"></i> Resumen</p>
+                            </div>
+                            <hr>
+                            <div class="side-content">
+                                <p><%= @post.the_excerpt %></p>
+                            </div>
+                        </div>
+                        <div class="tarjeta side">
+                            <div class="menu-badges d-flex">
+                                <p class="side-title"><i class="fa fa-users" aria-hidden="true"></i> Miembros del grupo</p>
+                            </div>
+                            <hr>
+                            <%= render partial: "layouts/miembros_grupo" %>                            
+                        </div>
+                    </div>
+                </div>

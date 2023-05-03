@@ -1,0 +1,50 @@
+<% if !cama_sign_in?%>
+   <script type="text/javascript">
+    window.location.href="<%= cama_login_path%>"  // put your correct path in a string here
+  </script> 
+<% end
+%>
+<div class="fondo-form">
+   <div class="registration-form">
+      <div class="titulo"><h1 class="entry-title"><%= t("registrarse_en",nombr:@post.the_title) %></h1></div>
+      <div >
+         <%= form_tag(plugins_custom_registro_cinscribirse_url, method: :post) do %>  
+         <%= render partial: "camaleon_cms/flash_messages", locals:{ flash: (flash[:custom_registro] || {}).with_indifferent_access }%>
+            <input type='hidden' name="idslug" value='<%= raw @post.id%>'>
+            <input type='hidden' name="slug" value='<%= raw @post_type.slug%>'>
+            <input type='hidden' name="idioma" value='<%= I18n.locale.to_s.upcase%>'>
+            <input type='hidden' name="retorno" value='<%= request.referer%>'>
+            <div class="form-group " >      
+               <input name="nombre" type="text" class="form-control item" placeholder="<%=I18n.t('camaleon_cms.admin.table.first_names')%>" value="<%= raw @user.first_name if cama_sign_in?%>" required>
+            </div>
+            <div class="form-group ">     
+               <input name="apellidos" type="text" class="form-control item"  placeholder="<%=I18n.t('camaleon_cms.admin.table.last_names')%>" value="<%= raw @user.last_name if cama_sign_in?%>" required>
+            </div>
+            <div class="form-group ">      
+               <input name="dni" type="text" class="form-control item" placeholder="<%= t('dni')%>" value="<%= raw @user.dni if cama_sign_in?%>" required>
+            </div>
+            <div class="form-group ">      
+               <input name="email" type="email" class="form-control item" placeholder="<%=I18n.t('camaleon_cms.admin.table.e_mail')%>" value="<%= raw @user.email if cama_sign_in?%>" <%= "readonly" if cama_sign_in?%>>
+            </div>
+            <div class="form-group ">      
+               <textarea name="direc" class="form-control item" placeholder="<%= t('direccion')%>" ><%= raw @user.direc if cama_sign_in?%></textarea>
+            </div>
+            <div class="form-group ">      
+               <input name="poblacion" type="text" class="form-control item" placeholder="<%= t('poblacion')%>"  value="<%= raw @user.poblacion if cama_sign_in?%>">
+            </div>
+            <div class="form-group ">      
+               <input name="zip" type="text" class="form-control item" placeholder="<%= t('zip')%>" value="<%= raw @user.zip if cama_sign_in?%>">
+            </div>
+            <div class="form-group ">      
+               <input name="telf" type="tel" class="form-control item" placeholder="<%= t('telf')%>" value="<%= raw @user.telf if cama_sign_in?%>">
+            </div>
+            <div class="form-group ">      
+               <input name="empresa" type="text" class="form-control item" placeholder="<%= t('empresax')%>" value="<%= raw current_site.the_posts("empresas").where(:id => @user.get_field("empresa"))[0]["title"].translate('es') if cama_sign_in?%>" <%= "readonly" if cama_sign_in?%>>
+            </div>
+            <div class="text-right">
+               <button type="submit" class="btn btn-block create-account"><%= t("camaleon_cms.common.register")%></button>
+            </div>
+         <% end %>
+      </div>
+   </div>
+</div>

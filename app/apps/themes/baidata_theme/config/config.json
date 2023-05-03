@@ -1,0 +1,23 @@
+{
+  "name": "Baidata Theme",
+  "description": "",
+  "thumb": "images/image.png",
+  "helpers": [
+    "Themes::BaidataTheme::MainHelper"
+  ],
+  "hooks": {
+    "on_active": [
+      "baidata_theme_on_install_theme"
+    ],
+    "on_inactive": [
+      "baidata_theme_on_uninstall_theme"
+    ],
+    "on_theme_settings": [
+      "baidata_theme_settings"
+    ],
+    "extra_custom_fields": [
+      "listado_empresas",
+      "rangos"
+    ]
+  }
+}

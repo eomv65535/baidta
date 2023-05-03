@@ -1,0 +1,196 @@
+<% 
+contador2=0
+@post.get_fields_grouped(["hora-agenda","detalle-agenda"]).each_with_index do |agenda,index|
+   if !agenda["hora-agenda"].first.empty?
+      contador2+=1
+   end   
+end
+%>
+<section class="headerteam" style="background: url(<%= @post.get_field("imagen-fondo-evento-baidata")%>)">
+	<div class="container banner-evento">
+      <div class="subtitu_top_event col-md-12">
+         <h1><%= @post.the_title %></h1>
+         <h3><%= @post.the_excerpt %></h3>
+         <h3>
+         <%= I18n.l(Date.parse(@post.get_field("inicio-evento")), locale: I18n.locale, format: :long) if @post.get_field("fin-evento").nil?%> 
+         <%= I18n.l(Date.parse(@post.get_field("inicio-evento")), locale: I18n.locale, format: :short) + ' / ' + I18n.l(Date.parse(@post.get_field("fin-evento")), locale: I18n.locale, format: :short) if !@post.get_field("fin-evento").nil?%> 
+         
+         - <%= @post.get_field("ubicacion-evento") %></h3>
+         <p>
+         <a href="#agendau" class="btn btn-registro2 <%= "hidden" if contador2 == 0%>"><%= t("agenda")%></a> 
+         <a href="#registraevt" class="btn btn-registro2"><%= t("camaleon_cms.common.register")%></a>
+         <a href="<%= cama_url_to_fixed("cama_streamevents2_path", {cualevt: @post.id})%>" class="btn btn-registro2 <%= "hidden" if @post.get_field("inicio-evento").to_date != Date.today%>" target="_blank"> Webinar</a>
+         </p> 
+      </div>
+   </div>
+</section>
+<section class="jumbotron">
+   <div class="container deljumbo">
+      <p class="lead text-muted"><%= raw @post.the_content %></p>          
+   </div>
+</section>
+
+<section class="container <%= "hidden" if contador2 == 0%>" id="agendau">
+   <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8 agenda">
+         <div class="schedule-warp">
+            <div class="day-one"><%= t("agenda")%></div>
+            <% @post.get_fields_grouped(["hora-agenda","detalle-agenda"]).each do |agenda|  %>
+               <div class="schedule-card">
+                  <div class="insidebox">
+                     <span class="schedule-tag"><%= raw agenda["hora-agenda"].first%></span> 
+                     <span class="schedule-start"><%= raw agenda["detalle-agenda"].first.translate(I18n.locale.to_s)%></span>                
+                  </div> 
+               </div>
+            <% end%>
+         </div>      
+      </div>
+      <div class="col-md-2"></div>    
+    </div>
+</section>
+<% 
+contador=0
+@post.get_fields_grouped(["imagen","nombre","biografia","subtitulo"]).each_with_index do |ponente,index|
+   if !ponente["nombre"].first.empty?
+      contador+=1
+   end   
+end
+%>
+<div class="team-boxed <%= "hidden" if contador == 0%>">
+   <div class="container">
+      <div class="intro">
+         <h2 class="text-center"><%= t("ponentes")%></h2>
+      </div>
+      <div class="row people">
+         <% @post.get_fields_grouped(["imagen","nombre","biografia","subtitulo"]).each_with_index do |ponente,index|  %>                               
+            <div class="col-md-4 item">
+               <div class="box">
+                  <img src="<%= ponente["imagen"].first%>">
+                  <h3 class="name"><%= raw ponente["nombre"].first%></h3> 
+                  <p><%= raw ponente["subtitulo"].first%></p>                    
+                  <% if ponente["biografia"].first.translate(I18n.locale.to_s).length<=1 %> 
+                     <a class="shortcode_lightbox"><%= t("biografia")%></a>
+                   <% elsif%>  
+                     <%= raw do_shortcode('[lightbox url="#ponente'+index.to_s+'"]'+t("biografia")+'[/lightbox]') %>      
+                     <div id="ponente<%= index.to_s%>" class="mfp-hide">
+                        <div id="small-dialog" class="">
+                           <img class="mfp-img" src="<%= ponente["imagen"].first%>">
+                           <h3 class="name text-center"><%= raw ponente["nombre"].first%></h3> 
+                           <p><%= raw ponente["biografia"].first.translate(I18n.locale.to_s)%></p>
+                           <button title="Close (Esc)" type="button" class="mfp-close">×</button>
+                        </div>   
+                     </div>                                        
+                   <% end%>
+               </div>
+            </div>
+         <% end%>
+      </div>
+   </div> 
+</div>   
+<section class="mapasect <%= "hidden" if !@post.get_field("mapa").present?%>">
+   <div class="container">
+      <div class="col-xs-12">
+       <br>
+         <h1><%= t("comolleg")%></h1>
+         <p>&nbsp</p>
+         <div class="col-md-6">
+            <%= raw @post.get_field("mapa")%>
+         </div>
+         <div class="col-md-6">
+             <% @post.get_fields_grouped(["titulo","icono","descripcion"]).each do |comol|  %>  
+              <br>
+               <h4> <i class="fa <%= raw comol["icono"].first%>"></i> <%= raw comol["titulo"].first.translate(I18n.locale.to_s)%></h4>
+               <p><%= raw comol["descripcion"].first.translate(I18n.locale.to_s)%></p>
+               <br>
+             <% end%>
+         </div>
+      </div>   
+    </div>  
+</section>
+ <%=
+   @formulario_corto=0
+   if @post.get_field("tipo-de-registro")=="0"
+      @formulario_corto=1
+   end   
+ %>
+
+<div class="fondo-form <%= "hidden" if @esta_regis%>" id="registraevt">
+   <div class="registration-form">
+      <div class="titulo"><h1 class="entry-title"><%= t("camaleon_cms.common.register") %></h1></div>
+      <div >
+         <%= form_tag(plugins_custom_registro_einscribirse_url, method: :post) do %>  
+            <%= render partial: "camaleon_cms/flash_messages", locals:{ flash: (flash[:custom_registro] || {}).with_indifferent_access }%>
+            <input type='hidden' name="idslug" value='<%= raw @post.id%>'>
+            <input type='hidden' name="slug" value='<%= raw @post_type.slug%>'>
+            <div class="form-group " >
+               <label><%= t("camaleon_cms.admin.table.first_names")%></label><br>
+               <input name="nombre" type="<%= raw @tipo_txt %>" class="form-control item" value="<%= raw @user.first_name if cama_sign_in?%>" required>
+            </div>
+            <div class="form-group ">
+               <label><%= t("camaleon_cms.admin.table.last_names")%></label><br>
+               <input name="apellidos" type="text" class="form-control item" value="<%= raw @user.last_name if cama_sign_in?%>" required>
+            </div>
+            <div class="form-group <%= "hidden" if @formulario_corto%>">
+               <label> <%= t("dni")%></label><br>
+               <input name="dni" type="text" class="form-control item" value="<%= raw @user.dni if cama_sign_in?%>">
+            </div>
+            <div class="form-group ">
+               <label><%= t('camaleon_cms.admin.table.e_mail')%></label><br>
+               <input name="email" type="email" class="form-control item" value="<%= raw @user.email if cama_sign_in?%>" required>
+            </div>
+            <div class="form-group <%= "hidden" if @formulario_corto%>">
+               <label><%= t("direccion")%></label><br>
+               <textarea name="direc" class="form-control item"> <%= raw @user.direc if cama_sign_in?%></textarea>
+            </div>
+            <div class="form-group <%= "hidden" if @formulario_corto%>">
+               <label><%= t("poblacion")%></label><br>
+               <input name="poblacion" type="text" class="form-control item" value="<%= raw @user.poblacion if cama_sign_in?%>">
+            </div>
+            <div class="form-group <%= "hidden" if @formulario_corto%>">
+               <label><%= t("zip")%></label><br>
+               <input name="zip" type="text" class="form-control item" value="<%= raw @user.zip if cama_sign_in?%>">
+            </div>
+            <div class="form-group ">
+               <label><%= t("telf")%></label><br>
+               <input name="telf" type="tel" class="form-control item" value="<%= raw @user.telf if cama_sign_in?%>">
+            </div>
+            <div class="form-group ">
+               <label><%= t("empresax")%></label><br>
+               <input name="empresa" type="text" class="form-control item" value="<%= raw current_site.the_posts("empresas").where(:id => @user.get_field("empresa"))[0]["title"].translate('es') if cama_sign_in?%>">
+            </div>
+            <div class="form-group <%= "hidden" if I18n.locale.to_s.upcase=="ES" %>"">
+               <label><%= t("participare")%></label><br>              
+            </div>
+            <div class="form-check <%= "hidden" if I18n.locale.to_s.upcase=="ES"%>"">
+               <input class="form-check-input" type="radio" name="formato" id="formato1" value="onsite" checked>
+               <label class="form-check-label" for="formato1">
+                  On Site
+               </label>    
+            </div>          
+            <div class="form-check <%= "hidden" if I18n.locale.to_s.upcase=="ES"%>"">
+               <input class="form-check-input" type="radio" name="formato" id="formato2" value="online">
+               <label class="form-check-label" for="formato2">
+                  Online
+               </label>
+            </div>
+            <br>
+            <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
+            <label class="form-check-label" for="exampleCheck1"><a href="<%= @post.get_field("enlace-politica").translate(I18n.locale.to_s)%>"><%= t("heleido")%></a></label>
+         </div>   
+            <div class="text-right">
+               <button type="submit" class="btn btn-block btn-registro2"><%= t("camaleon_cms.common.register")%></button>
+            </div>
+         <% end %>
+      </div>
+   </div>
+</div>
+<div class="fondo-form <%= "hidden" if !@esta_regis%>" id="registraevt">
+<div class="flash_messages">
+      <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <%= raw(t("inscripcioncorrectamente")) %>
+      </div>
+    </div>
+</div>

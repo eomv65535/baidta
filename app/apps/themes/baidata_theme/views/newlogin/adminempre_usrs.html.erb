@@ -1,0 +1,68 @@
+<%= render "/layouts/header2_index" %>
+<div class="container intranet-top">    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="<%= cama_myprofile_path %>"><%= t("mi_area")%></a></li>
+            <li class="breadcrumb-item"><a href="<%= cama_adminempre_path %>"><%= t("administracion")%></a></li>
+            <li class="breadcrumb-item active" aria-current="page"><%= t('usuarios')%></li>
+        </ol>
+    </nav>
+    <div class="titulo"><h2><%= t("usuarios")%></h2>
+        <i class="fa fa-users" aria-hidden="true"></i><p><%= t("admin_subt")%></p>
+    </div>
+  
+    <div class="container">                                   
+            <div id="administracion">                
+                 <div class="titulo"><h4><%= t('usuarios')%></h4></div>                  
+                <div class="table-responsive">   
+                        <table class="table tabla_baidata">      
+                            <thead>
+                                <th align="center"><%= t('nombres_apellido')%></th>                                              
+                                <th align="center"><%= I18n.t('camaleon_cms.admin.table.e_mail')%></th>                                              
+                                <th align="center"><%= t('camaleon_cms.admin.table.status') %></th>                                              
+                                <th align="center"><%= t('camaleon_cms.admin.table.actions')%></th>        
+                            </thead>                                          
+                            <tbody>
+                            
+                            <%   
+                            
+                            current_site.users.all.each do |user|
+              
+                            if user.get_field("empresa") == @mi_empresa_id  && user.id!=@user.id    
+                                acualestado="inactivo"
+                                acualestado_mens=t("inactivar")
+                                if user.estatus=="inactivo"                           
+                                    acualestado="activo"
+                                    acualestado_mens=t("activar")
+                                end    
+                                %>
+                                    <tr>                                       
+                                         <td><%= user.first_name + ' ' + user.last_name%></td>
+                                         <td><%= user.email%></td>
+                                         <td align="center"><%= user.estatus%></td>
+                                        <td style="text-align: center;">       
+                                            <%= form_tag(plugins_custom_registro_actusrbyempre_url, method: :post, id: "actusrbyempr") do %>  
+                                                <%= render partial: "camaleon_cms/flash_messages", locals:{ flash: (flash[:custom_registro] || {}).with_indifferent_access }%>
+                                                <input type='hidden' name="idkg" value='<%= user.id%>'>
+                                                <input type='hidden' name="kgstd" value='<%= acualestado%>'>                                                
+                                                <div class="form-group" style="margin:0">                                               
+                                                    <input type="submit" value="<%= acualestado_mens%>" class="btn btn-block btn-registro3">    
+                                                </div>
+                                            <% end%>             
+                                        </td>
+                                    </tr>                                     
+                                <%
+                               
+                            end    
+                        end    
+                           %>                                                                                                            
+                            </tbody>
+                        </table>                                               
+                </div>       
+            </div>                      
+    </div>
+</div>
+
+
+
+<%= render "layouts/footer2" %>

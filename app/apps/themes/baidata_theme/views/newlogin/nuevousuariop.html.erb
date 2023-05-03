@@ -1,0 +1,43 @@
+<%= render "/layouts/header2_index" %>
+<%= render "camaleon_cms/flash_messages" %>
+<div class="fondo-form">
+   <div class="registration-form">
+      <div class="titulo"><h1 class="entry-title"><%= t("camaleon_cms.common.register") %></h1></div>
+      <div >
+         <%= form_tag(cama_save_newusropr_path, method: :post) do %>  
+         
+            <div class="form-group " >      
+               <input name="nombre" type="<%= raw @tipo_txt %>" class="form-control item" placeholder="<%=I18n.t('camaleon_cms.admin.table.first_names')%>" required>
+            </div>
+            <div class="form-group ">     
+               <input name="apellidos" type="text" class="form-control item"  placeholder="<%=I18n.t('camaleon_cms.admin.table.last_names')%>" required>
+            </div>
+            <div class="form-group ">      
+               <input name="dni" type="text" class="form-control item" placeholder="<%= t('dni')%>" >
+            </div>
+            <div class="form-group ">      
+               <input name="email" type="email" class="form-control item" placeholder="<%=I18n.t('camaleon_cms.admin.table.e_mail')%>" required>
+            </div>
+            <div class="form-group ">      
+               <textarea name="direc" class="form-control item" placeholder="<%= t('direccion')%>" ></textarea>
+            </div>
+            <div class="form-group ">      
+               <input name="poblacion" type="text" class="form-control item" placeholder="<%= t('poblacion')%>">
+            </div>
+            <div class="form-group ">      
+               <input name="zip" type="text" class="form-control item" placeholder="<%= t('zip')%>">
+            </div>
+            <div class="form-group ">      
+               <input name="telf" type="tel" class="form-control item" placeholder="<%= t('telf')%>">
+            </div>
+            <div class="form-group ">      
+               <input name="empresa" type="text" class="form-control item" placeholder="<%= t('empresax')%>" required>
+            </div>
+            <div class="text-right">
+               <button type="submit" class="btn btn-block create-account"><%= t("camaleon_cms.common.register")%></button>
+            </div>
+         <% end %>
+      </div>
+   </div>
+</div>
+<%= render "layouts/footer2" %>

@@ -1,0 +1,39 @@
+<%= render "/layouts/header2_index" %> 
+<div class="container intranet-top">    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="<%= cama_myprofile_path %>"><%= t("mi_area")%></a></li>
+            <li class="breadcrumb-item active" aria-current="page"><%= t('administracion')%></li>
+        </ol>
+    </nav>
+    <div class="titulo"><h2><%= t("administracion")%></h2>
+        <i class="fa fa-building" aria-hidden="true"></i><p><%= t("admin_subt")%></p>
+    </div>
+  <div class="row">
+         <a class="stretched-link text-decoration-none" href="<%= cama_adminempre_datos_path%>">
+            <div class="col-md-4 col-xl-3 landing">
+                <div class="card bg-c-blue order-card">
+                    <div class="card-block">                    
+                        <span></span>                    
+                        <h2 class="text-right"><i class='fa fa-edit'></i><span></span></h2><br>
+                    <p class="m-b-0"><%= t('datos_mi_empresa')%><span class="f-right"></span></p> 
+                    </div>
+                </div>
+            </div>       
+          </a>   
+         <a class="stretched-link text-decoration-none" href="<%= cama_adminempre_usrs_path%>">
+            <div class="col-md-4 col-xl-3 landing">
+                <div class="card bg-c-blue order-card">
+                    <div class="card-block">                    
+                        <span></span>                    
+                        <h2 class="text-right"><i class='fa fa-users'></i><span></span></h2><br>
+                    <p class="m-b-0"><%= t("usuarios")%><span class="f-right"></span></p> 
+                    </div>
+                </div>
+            </div>       
+          </a>  
+    </div>          
+</div>
+
+
+<%= render "layouts/footer2" %>

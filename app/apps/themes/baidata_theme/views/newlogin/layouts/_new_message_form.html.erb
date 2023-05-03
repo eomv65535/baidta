@@ -1,0 +1,7 @@
+<%= form_with url:{ action:"save_messages"}, id: 'envia_sms', method: :post, remote: true do |f| %>                
+<input type="hidden" name="room_id" value="<%= @single_room.id %>">
+<div id="acciones-publicar" class="d-flex">                    
+  <textarea name="body" id="body" placeholder="Escribe tu mensaje"></textarea>
+  <button class="action-primary" type="submit" id=""><i class="fa fa-paper-plane" aria-hidden="true"></i> Enviar</button>                
+</div>
+<% end %>

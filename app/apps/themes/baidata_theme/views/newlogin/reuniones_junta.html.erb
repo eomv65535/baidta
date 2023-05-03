@@ -1,0 +1,114 @@
+<%= render "/layouts/header2_index" %>
+<style>
+.panel-heading, .media_browser_list, .ajax-upload-dragdrop span{
+    display: none!important
+}
+.modal-dialog{
+    width: 30%!important;
+}
+.media_file_info_col{
+    width: 100%!important;
+}
+#cama_media_upload{
+    margin-top:30px
+}
+</style>
+<%= render 'camaleon_cms/flash_messages' %>   
+
+<div class="container intranet-top">    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="<%= cama_myprofile_path %>"><%= t("mi_area")%></a></li>
+            <li class="breadcrumb-item active" aria-current="page"><%= t('misreuniones')%></li>
+        </ol>
+    </nav>
+    <div class="titulo"><h2><%= t("misreuniones")%></h2>
+        <i class="fa fa-black-tie" aria-hidden="true"></i><p><%= t("misreuniones_subt")%></p>
+    </div>
+  
+    <div class="container">                                   
+            <div id="work_teams">                 
+                <div class="table-responsive">                           
+                                         
+                        <table class="table tabla_baidata">   
+                            <thead>
+                                <th class="text-center"><%= t("fecha")%></th>
+                                <th class="text-center"><%= t("titulo")%></th>
+                                <th class="text-center"><%= t("lugar")%></th>
+                                <th class="text-center"><%= t("asistencia")%></th>
+                            </thead>                         
+                            <tbody>
+                            <% 
+                            current_site.the_posts("reuniones-juntadir").decorate.each_with_index do |reuniones,index|      
+                            if reuniones.get_field("estatus")=="1"                                                        
+                                 %>
+                                    <tr>
+                                        <td class="izquierdo"><%= I18n.l(Date.parse(reuniones.get_field("fecha")), locale: I18n.locale, format: :long) %> / <%= raw reuniones.get_field("duracion")%></td>
+                                        <td scope="row"><strong><%=reuniones.title.translate%></strong></td>
+                                        <td scope="row"><%=reuniones.get_field("lugar").translate%></td>
+                                        <td style="text-align: center;">
+                                        <% if current_site.inscritos.dereunionjd.deunidslug(reuniones.id).decorreo(current_user.email).present?%>
+                                            <span class="btn btn-nuevo registrado"><%= t("already_registered")%> <i class="fa fa-check" style="font-size: 12px;float:none;"></i></span>
+                                        <% elsif%>
+                                            <%= form_tag(plugins_custom_registro_reunioninscribirse_url, method: :post, id: "confi") do %>  
+                                                <%= render partial: "camaleon_cms/flash_messages", locals:{ flash: (flash[:custom_registro] || {}).with_indifferent_access }%>
+                                                <input type='hidden' name="idslug" value='<%= raw reuniones.id%>'>
+                                                <input type='hidden' name="slug" value='reuniones-juntadir'>
+                                                <div class="form-group">                                                  
+                                                    <select id="estatus" name="estatus" class="form-control">
+                                                        <option value="asistes"><%= t("asisto_alsitio")%></option>
+                                                        <option value="asisteo"><%= t("asisto_onlin")%></option>
+                                                        <option value="noasiste"><%= t("noasistire")%></option>
+                                                    </select>
+                                                </div>                                                
+                                                <div class="form-group">                                               
+                                                    <input type="submit" value="<%= t("confirmarlo")%>" class="btn btn-block btn-registro3">    
+                                                </div>
+                                            <% end%> 
+                                        <% end%>                    
+                                        </td>
+                                    </tr>     
+                                    <% end%>                                                          
+                            <% end%>                                
+                            </tbody>
+                        </table>                                                                
+                </div>     
+            </div>                     
+    </div>
+</div>
+<!-- MODALS -->
+<div class="modal animated fadeIn" id="modal_change_password" tabindex="-1" role="dialog" aria-labelledby="smallModalHead" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"><%= t('camaleon_cms.admin.button.close') %></span></button>
+                <h4 class="modal-title" id="smallModalHead"><%= t('camaleon_cms.admin.button.change_password') %></h4>
+            </div>
+            <%= form_for @user, as: "user", url:{action: :actualiza_usuario_ajax, user_id: @user.id}, html:{id: "profie-form-ajax-password", class: 'validate-password form-ajax-password modal-body'} do |f| %>
+                <div class="form-group">
+                    <label class="control-label"><%= t('camaleon_cms.admin.table.new_password') %></label>
+                    <input id="pass_new" type="password" class="form-control required" name="password[password]"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label"><%= t('camaleon_cms.admin.table.repeat_new') %></label>
+                    <input type="password" class="form-control required" name="password[password_confirmation]" equalTo="#pass_new"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"><%= t('camaleon_cms.admin.button.proccess') %></button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('camaleon_cms.admin.button.close') %></button>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>
+
+<script type="application/javascript">
+    jQuery(function ($) { 
+        init_profile_form(); 
+        <%= raw "$('#wpt').click();" if flash[:work_teams]==1 %>            
+    });
+    
+</script>
+
+
+<%= render "layouts/footer2" %>

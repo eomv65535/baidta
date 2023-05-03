@@ -1,0 +1,20 @@
+<%= render "/layouts/header2_index" %>
+<div class="container intranet-top"> 
+ <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="<%= cama_myprofile_path %>"><%= t("mi_area")%></a></li>
+            <li class="breadcrumb-item active" aria-current="page"><%= I18n.t('encuesta')%></li>
+        </ol>
+    </nav>
+    <div class="titulo"><h2><%= I18n.t('encuesta')%></h2>
+        <i class="fa fa-list" aria-hidden="true"></i><p>&nbsp;</p>
+    </div>   
+    <div class="container"> 
+        <div class="flash_messages">
+            <div class="alert alert-info center">                
+                <%= raw(flash[:success]) %>
+            </div>
+        </div>  
+   </div>            
+</div>    
+<%= render "layouts/footer2" %>

@@ -1,0 +1,104 @@
+<header class="headerinterno">
+  <nav class="navbar navbar-inverse navbar-fixed-top bai_top">
+    <div class="container">
+      <div id="navbar" class="navbar-collapse collapse navbar-right">
+        <ul class="nav navbar-nav arriba">
+          <li><a target="_blank" rel="noopener" href="https://internationaldataspaces.org/">IDSA</a></li>          
+          <li>
+            <ul class="nav navbar-nav navbar-right">
+              <% if signin? %>
+                <li class="dropdown">
+                  <a class="dropdown-toggle" href="#"><img src="<%= cama_current_user.decorate.the_avatar %>"
+                      style="max-width: 24px; border-radius: 50%" alt="" />
+                    <%= cama_current_user.username %>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a href="<%= cama_myprofile_path %>">
+                        <%= t('mi_area')%>
+                      </a></li>
+                    <li><a href="<%= cama_logout_path %>">
+                        <%= I18n.t('camaleon_cms.common.logout')%>
+                      </a></li>
+                  </ul>
+                </li>
+                <% else %>
+                  <li class="dropdown">
+                    <a id="login-user" class="dropdown-toggle" href="<%= cama_login_path %>"><%= I18n.t('login')%></a>
+                  </li>
+                  <% end %>
+            </ul>
+          </li>
+          <li class="dropdown">
+            
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="container" id="div_logo">
+      <div class="navbar-header">
+        <a id="logo" class="navbar-brand" href="<%= current_site.the_url %>">
+          <%= image_tag current_site.the_logo, class: "img-responsive" %>
+        </a>
+        <button data-target="#navbar-main" data-toggle="collapse" type="button" class="navbar-toggle">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div id="navbar-main" class="navbar-collapse collapse">        
+          <ul class="nav navbar-nav menu_baidata_index" id="">
+                <li class="menu-item  current-menu-item ">
+                  <a href="<%= current_site.the_url %>#baidata" class="current-link  menu_link"><%= I18n.t('quienes_somos')%></a>                 
+                </li>
+                <li class="menu-item  current-menu-item ">
+                  <a href="<%= current_site.the_url %>#mision" class="current-link  menu_link"><%= I18n.t('mision')%></a>                 
+                </li>
+                <li class="menu-item  current-menu-item ">
+                  <a href="<%= current_site.the_url %>#ventajas" class="current-link  menu_link"><%= I18n.t('ventajas')%></a>                 
+                </li>
+                <li class="menu-item  current-menu-item ">
+                  <a href="<%= current_site.the_url %>#actividades" class="current-link  menu_link"><%= I18n.t('actividades')%></a>                 
+                </li>
+                <li class="menu-item  current-menu-item ">
+                  <a href="<%= current_site.the_url %>#socios" class="current-link  menu_link"><%= I18n.t('socios')%></a>                 
+                </li>
+                <li class="menu-item  current-menu-item ">
+                  <a href="<%= current_site.the_url %>#unete" class="current-link  menu_link"><%= I18n.t('unete')%></a>                 
+                </li>
+              <% #if cama_sign_in? %>              
+                <li class="menu-item  current-menu-item ">
+                  <a href="<%= cama_cursos_path %>" class="current-link  menu_link"><%= I18n.t('formaciones')%></a>                 
+                </li>
+              <% #end%>
+          </ul>       
+          <ul class="nav navbar-nav menu_baidata_index" style="margin-top: -10px;">
+            <% if signin? %>
+              <li class="dropdown minimenu">
+                <a class="dropdown-toggle" data-toggle='dropdown' href="#"><img src="<%= cama_current_user.decorate.the_avatar %>"
+                    style="max-width: 24px; border-radius: 50%" alt="" />
+                  <%= cama_current_user.username %>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a href="<%= cama_myprofile_path %>">
+                      <%= t('mi_area')%>
+                    </a></li>
+                  <li><a href="/logout">
+                      <%= I18n.t('camaleon_cms.common.logout')%>
+                    </a></li>
+                </ul>
+              </li>
+              <% else %>
+                <li class="dropdown minimenu">
+                  <a id="login-user" class="dropdown-toggle" href="/login"><%= I18n.t('login')%></a>
+                </li>
+                <% end %>
+          </ul>
+          <ul class="nav navbar-nav menu_baidata_index" style="margin-top: -10px;">
+            <li class="dropdown minimenu">
+              
+            </li>
+          </ul>
+      </div>
+    </div>
+  </nav>
+</header>

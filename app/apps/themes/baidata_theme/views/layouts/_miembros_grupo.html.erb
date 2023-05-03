@@ -1,0 +1,14 @@
+<div class="side-content">
+    <% current_site.inscritos.deunidslug(@post.id).activo.where.not(:email => current_user.email).each_with_index do |inscrito,index|    
+        usuario = current_site.users.find_by_email(inscrito.email)%>
+        <div class="miembro d-flex align-items-center">
+            <div id="profile" style="background-image:url(<%= !usuario.decorate.the_avatar ? asset_path("camaleon_cms/admin/img/no_image.jpg") : usuario.decorate.the_avatar %>); margin-right:2em;"></div>
+            <div>
+                <p> <a href="<%= cama_url_to_fixed("cama_member_group_path", {w: usuario.id, g: @post.id})%>"><%= usuario.first_name %> <%= usuario.last_name %> </a></p>
+                <p class="subtitulo">
+                    <%= raw current_site.the_posts("empresas").where(:id => usuario.get_field("empresa"))[0]["title"].translate('es')%>
+                </p>
+            </div>
+        </div>
+    <% end %>                                                             
+</div>

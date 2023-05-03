@@ -1,0 +1,41 @@
+<%= render "/layouts/header2_index" %>
+<%= render 'camaleon_cms/flash_messages' %>   
+ 
+ 
+<div class="container intranet-top">            
+    <div class="titulo"><h2><%= t("convocatorias")%></h2> <i class="fa fa-bullhorn" aria-hidden="true"></i><p>&nbsp;</p> </div>      
+    <div class="tab-content">  
+        <% current_site.the_posts("convocatorias").decorate.sort_by { |h| h.get_field("fecha-cierre") }.each_with_index do |convocatoria,index| 
+                if convocatoria.get_field("fecha-cierre").to_date >= Date.today %>
+            <div class=" col-xs-12 col-lg-4">                    
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">                          
+                            <div class="wpem-from-date">
+                                <div class="wpem-date"><%= I18n.l(Date.parse(convocatoria.get_field("fecha-cierre")), locale: I18n.locale, format: "%d") %></div>
+                                <div class="wpem-month"><%= I18n.l(Date.parse(convocatoria.get_field("fecha-cierre")), locale: I18n.locale, format: "%b") %></div>
+                            </div>
+                            <a href="<%= convocatoria.get_field("web-convocatoria") %>" target="_blank">                                     
+                                <img src="<%= convocatoria.the_thumb_url%>" class="imgevtos">
+                                <h3 class="title-evt" style="height: 150px;"><%= convocatoria.the_title%></h3>               
+                            </a>    
+                            <br>
+                            <p class="pevt"><i class="fa fa-calendar"></i> 
+                            <%= I18n.l(Date.parse(convocatoria.get_field("fecha-cierre")), locale: I18n.locale, format: :long) if convocatoria.get_field('fin-convocatoria').nil?%>
+                            <%= I18n.l(Date.parse(convocatoria.get_field("fecha-cierre")), locale: I18n.locale, format: :short) + ' - ' + I18n.l(Date.parse(convocatoria.get_field("fin-convocatoria")), locale: I18n.locale, format: :short)  if !convocatoria.get_field('fin-convocatoria').nil? %>
+                            </p>                             
+                            <div class="etiquetas" style="text-align: center;">
+                                <a class="shortcode_lightbox" href="<%= convocatoria.get_field("web-convocatoria") %>" target="_blank"> <%= I18n.t :vermas %></a>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>                    
+            </div>
+        <%      end
+            end%>            
+    </div>
+</div>
+
+
+<%= render "layouts/footer2" %>

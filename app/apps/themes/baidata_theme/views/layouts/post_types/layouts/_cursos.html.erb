@@ -1,0 +1,87 @@
+<div class="container intranet-top">            
+        <div class="titulo"><h2><%= t("formaciones")%></h2>
+            <i class="fa fa-book" aria-hidden="true"></i><p><%= t("subtiformaciones")%></p>
+        </div>
+      
+        <div class="tab-content">                        
+           
+                  <%                 
+                    current_site.the_posts("cursos").decorate.sort_by {|h| h.get_field("fecha-curso")}.each_with_index do |curso,index| 
+                        fondito="#fff"
+                        fondito="#f2f2f2" if index %2 ==1
+                        @esta_regis=false
+                        @user=current_user                        
+                        if @user.present? && current_site.inscritos.decursos.deunidslug(curso.id).decorreo(@user.email).present?
+                            @esta_regis=true
+                        elsif @user.present? && current_site.inscritos.decursos.deunidslug(curso.id).dedni(@user.dni).present?
+                            @esta_regis=true 
+                        end 
+                        @total_inscr=current_site.inscritos.deunidslug(curso.id).size
+                        @numero_plazas=curso.get_field("plazas").to_i
+                        @disponibilidad=curso.get_field("plazas").to_i-@total_inscr
+                        @txtdisponibilidad=t("plazas_disponibles")
+                        if @disponibilidad<0
+                            @disponibilidad = 0                                                                            
+                        end 
+                        if @numero_plazas==0
+                                @txtdisponibilidad=t("curso_completo")                       
+                        end
+                        if @disponibilidad==0 && @numero_plazas>0
+                            @txtdisponibilidad=t("plazas_agotadas")
+                        end
+                        @listaes= false   
+                        if @esta_regis && current_site.inscritos.decursos.deunidslug(curso.id).decorreo(@user.email).size>0 && current_site.inscritos.decursos.deunidslug(curso.id).decorreo(@user.email)[0]["estatus"] == "espera"                
+                            @listaes = true
+                        end 
+                        
+                        if(curso.get_field("fecha-curso").to_date > Date.today )
+
+                    %>
+                         <div class="card">
+                            <div class="card-content">
+                                <nav class="navbar navbar-formacion bg-primary container-fluid">
+                                    <div class="d-flex justify-content-between">
+                                        <div><i class='fa fa-book'></i></div>
+                                        <div><p><span><%= I18n.l(Date.parse(curso.get_field("fecha-curso")), locale: :es, format: :long) %></span></p></div>
+                                    </div>
+                                </nav>
+                                <div class="card-body">
+                                    <div>
+                                        <p><i class="fa fa-circle" style="padding-top: 2px;font-size: 14px;color:<%= curso.get_field("color")%>"></i> &nbsp;<b><%=curso.title.translate%></b></p>
+                                        <%= curso.content.translate.html_safe %>
+                                    </div>
+                                    <div class="etiquetas">     
+                                        <% if @esta_regis && !@listaes%>
+                                            <span class="btn btn-nuevo registrado"><%= t("already_registered")%> <i class="fa fa-check" style="font-size: 12px;float:none;"></i></span>
+                                        <% elsif @esta_regis && @listaes%>
+                                            <span class="btn btn-nuevo en_listaespera"><%= t("en_listae")%> <i class="fa fa-clock-o" style="font-size: 12px;float:none;"></i></span>
+                                        <% elsif @txtdisponibilidad==t("curso_completo") %>
+                                            &nbsp;&nbsp;
+                                        <% elsif @txtdisponibilidad==t("plazas_agotadas") ||  @txtdisponibilidad==t("plazas_disponibles")
+                                                if @total_inscr>=curso.get_field("plazas").to_i && curso.get_field("plazas").to_i>=0
+                                        %> 
+                                                    <a href="<%= curso.the_url %>" >
+                                                        <span class="btn btn-nuevo registrarse">
+                                                            <%= I18n.t :registrarseles %> <i class="fa fa-arrow-right" style="font-size: 12px;float:none;"></i>
+                                                        </span>    
+                                                    </a>
+                                                <% elsif%>    
+                                                    <a href="<%= curso.the_url %>" >
+                                                        <span class="btn btn-nuevo registrarse">
+                                                            <%= I18n.t :registrarse %> <i class="fa fa-arrow-right" style="font-size: 12px;float:none;"></i>
+                                                        </span>   
+                                                    </a>
+                                            <% end%>  
+                                        <% end%>   
+                                                                                                                         
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                         </div> 
+                   
+                           <% end%>                 
+                    <% end%>                                                           
+                    </div>                              
+    </div>    
+</div>
